@@ -14,6 +14,7 @@ import Layout from './Layout';
 import posts from './posts';
 import users from './users';
 import tags from './tags';
+import forms from './forms';
 
 import { EditForm } from "./formio/EditForm";
 import { DisplayForm } from "./formio/DisplayForm";
@@ -40,6 +41,7 @@ render(
                     element={<DisplayForm />}
                 />
             </CustomRoutes>
+            <Resource name="forms" {...forms} options={{ label: 'Formulários' }} />
             <Resource name="posts" {...posts} />
             <Resource name="comments" {...comments} />
             <Resource name="tags" {...tags} />

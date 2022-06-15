@@ -1,47 +1,41 @@
 import React, { useState } from "react";
 import { FormBuilder, FormEdit, Errors, Form } from "react-formio";
 
-export const DisplayForm = ({ errors }) => { 
+function isJsonString(str) {
+  try {
+      JSON.parse(str);
+  } catch (e) {
+      return false;
+  }
+  return true;
+}
+
+export const DisplayForm = ({definition, errors }) => { 
   const [formData, setFormData] = useState({});
-  const frm = {
+  var frm = {
     display: "form",
     components: [
-      {
-        label: "Text Field",
-        tableView: true,
-        modalEdit: true,
-        key: "textField",
-        type: "textfield",
-        input: true
-      },
-      {
-        label: "Email",
-        tableView: true,
-        key: "email",
-        type: "email",
-        input: true
-      },
-      {
-        type: "button",
-        label: "Submit",
-        key: "submit",
-        disableOnInvalid: true,
-        input: true,
-        tableView: false
-      }
     ]
   };
-  
+
+
+
+  if (definition && isJsonString(definition))
+    frm = JSON.parse(definition);
+
+
+
   return (
-  <div>
-    <h2>Create Forms</h2>
-    <hr />
-      {JSON.stringify(formData.data)}
-      <Form
-        form={frm}
-        onChange={(schema) => console.log(schema)}
-        onSubmit={(x) => setFormData(x)}
-      />
-  </div>
-)
+    <div>
+      <h2>Create Forms</h2>
+      <hr />
+        {JSON.stringify(formData.data)}
+        <Form
+          form={frm}
+          //onChange={(schema) => console.log(schema)}
+          onSubmit={(x) => setFormData(x)}
+        />
+    </div>
+  )
+
 };
