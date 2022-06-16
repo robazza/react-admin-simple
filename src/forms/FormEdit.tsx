@@ -48,6 +48,8 @@ import TagReferenceInput from './TagReferenceInput';
 import { EditForm } from "../formio/EditForm";
 import { DisplayForm } from "../formio/DisplayForm";
 
+import { MyPdfDoc } from "../pdfform/MyPdfDoc.tsx";
+
 import { useWatch } from 'react-hook-form';
 
 const CreateCategory = ({
@@ -167,19 +169,39 @@ const FormEdit = () => {
                 
 
                 <FormTab label="Form">
-                <SanitizedBox
-                        display="flex"
-                        flexDirection="column"
-                        width="100%"
-                        justifyContent="space-between"
-                        fullWidth
-                    >
-                    <FormDataConsumer>
-                        {({ formData, ...rest }) => (
-                            <DisplayForm definition={formData.definition}/>
-                        )}
-                    </FormDataConsumer>
-                    
+                    <SanitizedBox
+                            display="flex"
+                            flexDirection="column"
+                            width="100%"
+                            justifyContent="space-between"
+                            fullWidth
+                        >
+                        <FormDataConsumer>
+                            {({ formData, ...rest }) => (
+                                <DisplayForm definition={formData.definition}/>
+                            )}
+                        </FormDataConsumer>
+                        
+                    </SanitizedBox>
+                </FormTab>
+
+                <FormTab label="PDF">
+                    <SanitizedBox
+                            display="flex"
+                            flexDirection="column"
+                            width="100%"
+                            justifyContent="space-between"
+                            fullWidth
+                        >
+                        <FormDataConsumer>
+                            {({ formData, ...rest }) => (
+                                <div>
+                                    <MyPdfDoc/>
+
+                                </div>
+                            )}
+                        </FormDataConsumer>
+                        
                     </SanitizedBox>
                 </FormTab>
             </TabbedForm>
