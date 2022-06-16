@@ -10,7 +10,7 @@ function isJsonString(str) {
   return true;
 }
 
-export const DisplayForm = ({definition, errors }) => { 
+export const DisplayForm = ({definition, onSetFormData, errors }) => { 
   const [formData, setFormData] = useState({});
   var frm = {
     display: "form",
@@ -31,9 +31,12 @@ export const DisplayForm = ({definition, errors }) => {
       <hr />
         {JSON.stringify(formData.data)}
         <Form
-          form={frm}
+          form={frm} options={{readOnly: false, 
+            //viewAsHtml: true,
+            //renderMode: 'html'
+          }}
           //onChange={(schema) => console.log(schema)}
-          onSubmit={(x) => setFormData(x)}
+          onSubmit={(x) => onSetFormData(x.data)}
         />
     </div>
   )

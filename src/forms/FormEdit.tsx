@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useState} from 'react';
 import { RichTextInput } from 'ra-input-rich-text';
 import {
     TopToolbar,
@@ -108,6 +109,8 @@ const categories = [
 
 const FormEdit = () => {
     const { permissions } = usePermissions();
+    const [frmData, setFrmData] = useState(0);
+    
 
     return (
         <Edit title={<FormTitle />} actions={<EditActions />}>
@@ -115,40 +118,25 @@ const FormEdit = () => {
                 defaultValues={{ average_note: 0 }}
                 warnWhenUnsavedChanges
             >
-                <FormTab label="post.form.summary">
+                <FormTab label="Processo">
 
                     <TextInput  disabled fullWidth source="id" />
                     <TextInput
                         source="title"
+                        label="Nome do Processo"
                         fullWidth
                         validate={required()}
                         resettable
                     />
 
-                    <TextInput
-                        multiline
-                        fullWidth
-                        source="definition"
-                        validate={required()}
-                        resettable
-                    />
-                    <CheckboxGroupInput
-                        source="notifications"
-                        fullWidth
-                        choices={[
-                            { id: 12, name: 'Ray Hakt' },
-                            { id: 31, name: 'Ann Gullar' },
-                            { id: 42, name: 'Sean Phonee' },
-                        ]}
-                    />
-                    <RichTextInput
-                        source="body"
-                        label=""
-                        validate={required()}
-                        fullWidth
-                    />
+                    
+
+
+
+
+
                 </FormTab>
-                <FormTab label="Form">
+                <FormTab label="Editar Formulário">
                     <SanitizedBox
                         display="flex"
                         flexDirection="column"
@@ -156,19 +144,28 @@ const FormEdit = () => {
                         justifyContent="space-between"
                         fullWidth
                     >
-                        <TextInput
-                            multiline
-                            fullWidth
-                            source="definition"
-                            validate={required()}
-                            resettable
-                        />
-                        <EditForm source="definition"/>
+
+                    <BooleanInput source="showDefinition" label="Mostrar JSON Formulário" />
+
+                        <FormDataConsumer>
+                            {({ formData, ...rest }) => formData.showDefinition &&
+                                <TextInput
+                                    multiline
+                                    fullWidth
+                                    source="definition"
+                                    label="Nome do Processo"
+                                    validate={required()}
+                                    resettable
+                                />
+                            }
+                        </FormDataConsumer>
+
+                        <EditForm source="XXXX"/>
                     </SanitizedBox>
                 </FormTab>
                 
 
-                <FormTab label="Form">
+                <FormTab label="Testar Formulário">
                     <SanitizedBox
                             display="flex"
                             flexDirection="column"
@@ -178,7 +175,7 @@ const FormEdit = () => {
                         >
                         <FormDataConsumer>
                             {({ formData, ...rest }) => (
-                                <DisplayForm definition={formData.definition}/>
+                                <DisplayForm definition={formData.definition} onSetFormData={setFrmData}/>
                             )}
                         </FormDataConsumer>
                         
@@ -196,7 +193,7 @@ const FormEdit = () => {
                         <FormDataConsumer>
                             {({ formData, ...rest }) => (
                                 <div>
-                                    <MyPdfDoc/>
+                                    <MyPdfDoc formData={frmData}/>
 
                                 </div>
                             )}

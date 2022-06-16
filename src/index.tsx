@@ -19,6 +19,10 @@ import forms from './forms';
 import { EditForm } from "./formio/EditForm";
 import { DisplayForm } from "./formio/DisplayForm";
 
+import { ProcessoShow } from "./processos/ProcessoShow";
+
+import { FormBuilder, FormEdit, Errors } from "react-formio";
+
 
 render(
     <React.StrictMode>
@@ -29,16 +33,16 @@ render(
             title="Example Admin"
             layout={Layout}
         >
-            <CustomRoutes noLayout>
+            <CustomRoutes >
                 <Route
                     path="/custom"
-                    element={<CustomRouteNoLayout title="Posts from /custom" />}
+                    element={<ProcessoShow />}
                 />
             </CustomRoutes>
             <CustomRoutes>
                 <Route
                     path="/customs"
-                    element={<DisplayForm />}
+                    element={<div id="builder">ee</div>}
                 />
             </CustomRoutes>
             <Resource name="forms" {...forms} options={{ label: 'Formulários' }} />

@@ -4,6 +4,9 @@ import get from 'lodash/get';
 import data from './data';
 import addUploadFeature from './addUploadFeature';
 
+import simpleRestProvider from "ra-data-simple-rest";
+import jsonServerProvider from "ra-data-json-server";
+
 const dataProvider = fakeRestProvider(data, true);
 
 const addTagsSearchSupport = (dataProvider: DataProvider) => ({
@@ -105,4 +108,6 @@ interface ResponseError extends Error {
     status?: number;
 }
 
-export default delayedDataProvider;
+//export default delayedDataProvider;
+
+export default jsonServerProvider("http://localhost:3001");

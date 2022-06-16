@@ -6,9 +6,7 @@ export default () => {
     const record = useRecordContext();
     return (
         <span>
-            {record
-                ? translate('post.edit.title', { title: record.title })
-            : ''} 
+            Definição do Processo "{record?.title}" 
         </span>
     );
 };

@@ -54,13 +54,11 @@ export const EditForm = ({ errors }) => {
 
   return (
     <div>
-      <h2>Create Form</h2>
-      <input  type="text" placeholder="latitude" />
-      <hr />
+      <button onClick={onClick}>Clique Aqui após Modificar o Formulário</button>
       <Errors errors={errors} />
       
       <FormBuilder ref={mref} options={options} onUpdateComponent={onChange} form={ffrm} />
-      <button onClick={onClick}>Store</button>
+      
     </div>
   );
 }
