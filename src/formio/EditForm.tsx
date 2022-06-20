@@ -14,13 +14,13 @@ function isJsonString(str) {
 
 const options = {
   builder: {
-    advanced: false
+    //advanced: false
   },
   editForm: {
     textfield: [
       {
         key: 'api',
-        ignore: true
+        ignore: false
       }        
     ]
   }
