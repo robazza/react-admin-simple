@@ -15,11 +15,12 @@ import posts from './posts';
 import users from './users';
 import tags from './tags';
 import forms from './forms';
+import processos from './processos';
 
 import { EditForm } from "./formio/EditForm";
 import { DisplayForm } from "./formio/DisplayForm";
 
-import { ProcessoShow } from "./processos/ProcessoShow";
+import { ProcessoShow } from "./processos/ProcessoShow2";
 
 import { FormBuilder, FormEdit, Errors } from "react-formio";
 
@@ -46,6 +47,7 @@ render(
                 />
             </CustomRoutes>
             <Resource name="forms" {...forms} options={{ label: 'Formulários' }} />
+            <Resource name="processos" {...processos} options={{ label: 'Processos' }} />
             <Resource name="posts" {...posts} />
             <Resource name="comments" {...comments} />
             <Resource name="tags" {...tags} />

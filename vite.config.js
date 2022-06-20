@@ -29,7 +29,7 @@ export default {
             plugins: [
                 NodeGlobalsPolyfillPlugin({
                     process: true,
-                    buffer: true
+                    buffer: true,
                 })
             ]
         }
