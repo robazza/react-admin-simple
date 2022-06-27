@@ -46,10 +46,7 @@ const postFilter = [
 
 const exporter = posts => {
     const data = posts.map(post => ({
-        ...post,
-        backlinks: lodashGet(post, 'backlinks', []).map(
-            backlink => backlink.url
-        ),
+        ...post
     }));
     return jsonExport(data, (err, csv) => downloadCSV(csv, 'posts'));
 };
@@ -85,11 +82,11 @@ const FormListActionToolbar = ({ children, ...props }) => (
 );
 
 const rowClick = (id, resource, record) => {
-    if (record.commentable) {
-        return 'edit';
-    }
 
-    return 'show';
+    //return 'show';
+    
+
+    return 'edit';
 };
 
 const PostPanel = ({ id, record, resource }) => (
@@ -113,10 +110,10 @@ const FormList = () => {
                 >
                     <TextField source="id" />
                     <TextField source="title" cellClassName="title" />
-                    <TextField source="views" sortByOrder="DESC" />
+                    
                     <FormListActionToolbar>
                         <EditButton />
-                        <ShowButton />
+                        {false && <ShowButton />}
                     </FormListActionToolbar>
                 </StyledDatagrid>
         

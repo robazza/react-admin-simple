@@ -1,11 +1,6 @@
 import * as React from "react";
-import { Edit, Show, SimpleForm, TextInput, DateInput, ReferenceManyField, Datagrid, TextField, DateField, EditButton, required, useRecordContext, 
-    useGetOne, usePermissions, TabbedForm, FormTab, Link, FileInput, FileField } from 'react-admin';
+import { Edit, Show, SimpleForm, TextInput, DateInput, ReferenceManyField, Datagrid, TextField, DateField, EditButton, required, useRecordContext, useGetOne } from 'react-admin';
 import { Box, Chip, useMediaQuery, Theme } from '@mui/material';
-
-import { useNavigate } from "react-router-dom";
-
-import { RichTextInput } from 'ra-input-rich-text';
 
 import _ from 'lodash';
 
@@ -15,6 +10,7 @@ import {
     Typography,
     Card,
     CardContent,
+    Link,
     Stepper,
     Step,
     StepLabel,
@@ -40,8 +36,8 @@ const ProcessoTitle = () => {
     );
 };
 
-const ProcessosEdit = () => (
-    <Edit component="div" title={<ProcessoTitle/>}  sx={{backgroundColor: 'inherit', height: '100%', width: '100%', 
+const ProcessosShow = () => (
+    <Edit component="div" title={<ProcessoTitle/>}  className="XXXE" sx={{backgroundColor: 'inherit', height: '100%', width: '100%', 
     '& .RaEdit-main': {
         height: '100%',
         marginTop: '0'
@@ -58,24 +54,10 @@ const ProcessosEdit = () => (
 );
 
 const Visao3 = () => {
-    const { permissions } = usePermissions();
-    const record = useRecordContext();
     const [doc, setDoc] = React.useState({});
 
     const NoHeader=()=>(<>{doc?.nome}</>);
-
-    if (record.tramites.length == 0) {
-        record.tramites=[];
-        record.tramites[0] = {};
-        record.tramites[0].autor = {nome:'CONTRIBUINTE', cpf:'123.456.789-88'};
-    }
-
-    console.log(record);
-
-    const tramiteAtual = record.tramites.length-1;
-    const proximoTramite = record.tramites.length;
-
-    console.log({navigate: useNavigate()});
+    
 
     return (
         <Box style={{display:"flex", flexDirection: 'row', width: '100%', height: '100%', justifyContent:'flex-start', padding: '1em 0em 1em 0em', gap: '1em'}} className="XXBOX"> 
@@ -85,46 +67,16 @@ const Visao3 = () => {
             </Box>
             
             <Card variant="outlined" style={{ flex:'flex: 1 1 auto', alignItems: 'stretch', height: '100%', width: '100%', borderRadius: '0.5em' }}>
-                <CardContent> 
-                    <TabbedForm defaultValues={{ average_note: 0 }} warnWhenUnsavedChanges >
-                        <FormTab label="Novo Despacho">
-                            <div style={{display: 'flex', padding: '1em 0em 1em 0em', gap: '1em'}}>
+                {false && JSON.stringify(doc)}
+                {true && <DocViewer  config={{header:{overrideComponent: NoHeader}}} style={{maxWidth: 'calc(100vw - 500px)', maxHeight: 'calc(100vh - 100px)'}} pluginRenderers={DocViewerRenderers} documents={doc} />}
 
-                            <DateInput source={`tramites[${tramiteAtual}].data`} validate={required()} />
-                            <TextInput source={`tramites[${proximoTramite}].autor.nome`} validate={required()} defaultValue="Fufufufufu" />
-                            <TextInput source={`tramites[${proximoTramite}].autor.cpf`} validate={required()} defaultValue="000.123.456-78" />
-                            
-                            </div>
-                            <TextInput source={`tramites[${tramiteAtual}].conteudo[0].nome`} validate={required()} defaultValue="Despacho" fullWidth  />
-                            <TextInput source={`tramites[${tramiteAtual}].conteudo[0].dataPrefix`} validate={required()} defaultValue="data:text/html;charset=utf-8," fullWidth hidden />
-                            
-                            <RichTextInput
-                                source={`tramites[${tramiteAtual}].conteudo[0].data`}
-                                label="Conteúdo do tramite"
-                                validate={required()}
-                                fullWidth
-                            />
-
-                            <FileInput source="files" label="Anexos" multiple="true" accept="application/pdf">
-                                <FileField source="src" title="title"/>
-                            </FileInput>
-
-                        </FormTab>
-
-                        <FormTab label="Documentos">
-                        {true && <DocViewer  config={{header:{overrideComponent: NoHeader}}} style={{maxWidth: 'calc(100vw - 500px)', maxHeight: 'calc(100vh - 100px)'}} pluginRenderers={DocViewerRenderers} documents={doc} />}
-
-
-                        </FormTab>
-                    </TabbedForm>
-                </CardContent>
             </Card>
         </Box>
     )
 }
 
 
-export default ProcessosEdit;
+export default ProcessosShow;
 
 const Icon = ({i}) => <i className={`fa ${i} fa-lg`} aria-hidden="true"/>
 
@@ -180,7 +132,7 @@ const TimelineMaterial = ({setDoc}) => {
                                 <StepContent>
                     
                     
-                                {event.conteudo?.map(arquivo => (
+                                {event.conteudo.map(arquivo => (
                                     <div onClick={(e)=>{e.preventDefault(); setDoc([{uri:(arquivo.dataPrefix??'')+arquivo.data, nome: arquivo.nome}])}}><Icon  i="fa-file-pdf-o"/> {arquivo.nome} <br/></div>
                                 ))}
 

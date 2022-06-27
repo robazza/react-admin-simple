@@ -20,8 +20,6 @@ import processos from './processos';
 import { EditForm } from "./formio/EditForm";
 import { DisplayForm } from "./formio/DisplayForm";
 
-import { ProcessoShow } from "./processos/ProcessoShow2";
-
 import { FormBuilder, FormEdit, Errors } from "react-formio";
 
 
@@ -36,8 +34,8 @@ render(
         >
             <CustomRoutes >
                 <Route
-                    path="/custom"
-                    element={<ProcessoShow />}
+                    path="/novo-processo"
+                    element={<div id="builder">ee</div>}
                 />
             </CustomRoutes>
             <CustomRoutes>

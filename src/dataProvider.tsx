@@ -110,4 +110,4 @@ interface ResponseError extends Error {
 
 //export default delayedDataProvider;
 
-export default jsonServerProvider("http://localhost:3001");
+export default addUploadFeature(jsonServerProvider("http://localhost:3001"));

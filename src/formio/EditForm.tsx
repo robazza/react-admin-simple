@@ -1,7 +1,10 @@
 import React from "react";
 import { TextField } from "@material-ui/core";
 import { useController, useForm } from "react-hook-form";
-import { FormBuilder, FormEdit, Errors } from "react-formio";
+import { FormBuilder, FormEdit, Components, Errors } from "react-formio";
+
+import Toggle from "../formio/Toggle";
+import Identificacao from "../formio/Identificacao";
 
 function isJsonString(str) {
   try {
@@ -15,6 +18,12 @@ function isJsonString(str) {
 const options = {
   builder: {
     //advanced: false
+    basic: {
+      components: {
+        toggleCustomComp: true,
+        identificacaoCustomComp: true
+      }
+    }
   },
   editForm: {
     textfield: [
@@ -32,7 +41,7 @@ var mref = React.createRef();
 export const EditForm = ({ errors }) => {
   const input1 = useController({ name: 'definition' });
 
-  
+  Components.setComponents({toggleCustomComp: Toggle, identificacaoCustomComp: Identificacao});
 
   const onChange = (schema,a,b,c)=>{
     //console.log('EEEE',schema,JSON.stringify(schema));

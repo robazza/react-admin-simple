@@ -8,8 +8,14 @@ import {
     UserMenu,
     useLocaleState,
     useUserMenu,
+    Menu,
+    DashboardMenuItem,
+    MenuItemLink
 } from 'react-admin';
 import { MenuItem, MenuItemProps, ListItemIcon } from '@mui/material';
+
+import BookIcon from '@mui/icons-material/Book';
+
 import Language from '@mui/icons-material/Language';
 
 const SwitchLanguage = forwardRef<HTMLLIElement, MenuItemProps>(
@@ -45,9 +51,25 @@ const MyUserMenu = () => (
 
 const MyAppBar = memo(props => <AppBar {...props} userMenu={<MyUserMenu />} />);
 
+const MyMenu = memo((props) => {
+    console.log(props);
+    return (
+    <>
+        <Menu {...props}>
+            <MenuItemLink to="/processos" primaryText="Meus Processos" leftIcon={<BookIcon />}/>
+            <MenuItemLink to="/posts" primaryText="Abrir Processo" leftIcon={<BookIcon />}/>
+        </Menu>
+
+        <Menu {...props}></Menu> 
+        
+
+
+    </>
+)});
+
 export default props => (
     <>
-        <Layout {...props} appBar={MyAppBar} />
+        <Layout {...props} appBar={MyAppBar} menu={MyMenu} />
         <ReactQueryDevtools
             initialIsOpen={false}
             toggleButtonProps={{ style: { width: 20, height: 30 } }}

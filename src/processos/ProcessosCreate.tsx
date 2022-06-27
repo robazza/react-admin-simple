@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useMemo } from 'react';
 import { RichTextInput } from 'ra-input-rich-text';
+import { useController, useForm } from "react-hook-form";
 import {
     ArrayInput,
     AutocompleteInput,
@@ -24,10 +25,11 @@ import {
     useNotify,
     usePermissions,
     useRedirect,
+    useRecordContext
 } from 'react-admin';
 import { useFormContext, useWatch } from 'react-hook-form';
 
-const FormCreateToolbar = props => {
+const ProcessoCreateToolbar = props => {
     const notify = useNotify();
     const redirect = useRedirect();
     const { reset } = useFormContext();
@@ -45,7 +47,7 @@ const FormCreateToolbar = props => {
                             type: 'info',
                             messageArgs: { smart_count: 1 },
                         });
-                        redirect('edit', 'forms', data.id);
+                        redirect('edit', 'processos', data.id);
                     },
                 }}
             />
@@ -70,7 +72,7 @@ const FormCreateToolbar = props => {
 
 
 
-const FormCreate = () => {
+const ProcessosCreate = () => {
     const defaultValues = useMemo(
         () => ({
             //average_note: 0,
@@ -79,37 +81,71 @@ const FormCreate = () => {
     );
     const { permissions } = usePermissions();
     const dateDefaultValue = useMemo(() => new Date(), []);
+
+    const record = useRecordContext();
+
+    const transformFn = (data) => {
+        console.log(data);
+        return {...data, tramites:[]}
+    }
+
     return (
-        <Create redirect="edit">
+        <Create redirect="edit" transform={transformFn}>
             <SimpleForm
-                toolbar={<FormCreateToolbar />}
+                toolbar={<ProcessoCreateToolbar />}
                 defaultValues={defaultValues}
             >
+
                 <TextInput
                     autoFocus
                     fullWidth
-                    source="title"
+                    source="numero"
                     validate={required('Required field')}
                 />
 
+                <TextInput
+                    autoFocus
+                    fullWidth
+                    source="requerente.nome"
+                    validate={required('Required field')}
+                />
+
+                <TextInput
+                    autoFocus
+                    fullWidth
+                    source="requerente.cpf"
+                    validate={required('Required field')}
+                />
+
+
+                <TextInput
+                    autoFocus
+                    fullWidth
+                    source="solicitante.nome"
+                    validate={required('Required field')}
+                />
+
+                <TextInput
+                    autoFocus
+                    fullWidth
+                    source="solicitante.cpf"
+                    validate={required('Required field')}
+                />
+
+                <FormDataConsumer>
+                    {({ formData, ...rest }) => (
+                        <>{formData?.requerente?.cpf}</>
+                        
+                    )} 
+                </FormDataConsumer>
+     
+
                 {permissions === 'admin' && (
-                    <>Sou ADMIN</>
+                    <>Sou ADMIN</> 
                 )}
             </SimpleForm>
         </Create>
     );
 };
 
-export default FormCreate;
-
-const DependantInput = ({
-    dependency,
-    children,
-}: {
-    dependency: string;
-    children: JSX.Element;
-}) => {
-    const dependencyValue = useWatch({ name: dependency });
-
-    return dependencyValue ? children : null;
-};
+export default ProcessosCreate;

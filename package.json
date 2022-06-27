@@ -4,6 +4,7 @@
     "private": true,
     "scripts": {
         "dev": "webpack-dev-server --progress --color --hot --mode development",
+        "start-json-server": "json-server -w db.json -p 3001",
         "start": "vite",
         "build": "vite build",
         "serve": "vite preview",

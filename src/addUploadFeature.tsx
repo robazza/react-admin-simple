@@ -2,7 +2,7 @@
  * For posts update only, convert uploaded image in base 64 and attach it to
  * the `picture` sent property, with `src` and `title` attributes.
  */
-const addUploadCapabilities = dataProvider => ({
+const addUploadCapabilitiesOld = dataProvider => ({
     ...dataProvider,
     update: (resource, params) => {
         if (resource !== 'posts' || !params.data.pictures) {
@@ -51,8 +51,47 @@ const convertFileToBase64 = file =>
         const reader = new FileReader();
         reader.readAsDataURL(file.rawFile);
 
-        reader.onload = () => resolve(reader.result);
+        reader.onload = () => resolve({nome: file.rawFile.path, data: reader.result});
         reader.onerror = reject;
     });
+
+
+
+
+const addUploadCapabilities = dataProvider => ({
+    ...dataProvider,
+    update: (resource, params) => {
+
+
+        if (resource == 'processos' && params.data?.files?.length) {
+            // fallback to the default implementation
+
+            params.data.filex = params.data.files.map(convertFileToBase64);
+            params.data.files=null;
+
+            return Promise.all(params.data.filex)
+                .then(base64Pictures =>
+                    params.data.filex = base64Pictures
+                )
+                .then(transformedNewPictures => {
+                    params.data.tramites[params.data.tramites.length-2].conteudo = [...params.data.tramites[params.data.tramites.length-2].conteudo, ...params.data.filex];
+                    params.data.files=null;
+                    params.data.filex=null;
+    
+                    return dataProvider.update(resource, {
+                            ...params,
+                            data: {
+                                ...params.data
+                            },
+                        })
+                    }
+                );
+        } else {
+            return dataProvider.update(resource, params);
+        }
+
+    },
+});
+    
 
 export default addUploadCapabilities;

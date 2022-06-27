@@ -49,7 +49,7 @@ import TagReferenceInput from './TagReferenceInput';
 import { EditForm } from "../formio/EditForm";
 import { DisplayForm } from "../formio/DisplayForm";
 
-import { MyPdfDoc } from "../pdfform/MyPdfDoc.tsx";
+import { MyPdfDoc } from "../pdfform/MyPdfDoc";
 
 import { useWatch } from 'react-hook-form';
 
@@ -129,11 +129,14 @@ const FormEdit = () => {
                         resettable
                     />
 
-                    
+                    <TextInput fullWidth source="primeiroSetor" label="Primeiro Setor" />
 
-
-
-
+                    <RichTextInput
+                        source="procedimento"
+                        label=""
+                        validate={required()}
+                        fullWidth
+                    />
 
                 </FormTab>
                 <FormTab label="Editar Formulário">
@@ -193,7 +196,7 @@ const FormEdit = () => {
                         <FormDataConsumer>
                             {({ formData, ...rest }) => (
                                 <div>
-                                    <MyPdfDoc formData={frmData}/>
+                                    {true&&<MyPdfDoc formData={frmData}/>}
 
                                 </div>
                             )}
@@ -201,6 +204,26 @@ const FormEdit = () => {
                         
                     </SanitizedBox>
                 </FormTab>
+
+                <FormTab label="API">
+                    <SanitizedBox
+                            display="flex"
+                            flexDirection="column"
+                            width="100%"
+                            justifyContent="space-between"
+                            fullWidth
+                        >
+                        <FormDataConsumer>
+                            {({ formData, ...rest }) => (
+                                <div>
+                                    {JSON.stringify(frmData)}
+                                </div>
+                            )}
+                        </FormDataConsumer>
+                        
+                    </SanitizedBox>
+                </FormTab>
+
             </TabbedForm>
         </Edit>
     );

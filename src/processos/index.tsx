@@ -1,10 +1,12 @@
 import ProcessosList from './ProcessosList';
 import ProcessosEdit from './ProcessosEdit';
+import ProcessosShow from './ProcessosShow';
+import ProcessosCreate from './ProcessosCreate';
 
 export default {
     list: ProcessosList,
-    //create: PostCreate,
+    create: ProcessosCreate,
     edit: ProcessosEdit,
-    //show: PostShow,
+    show: ProcessosShow,
     //icon: BookIcon,
 }
