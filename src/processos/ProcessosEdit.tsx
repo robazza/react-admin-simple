@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Edit, Show, SimpleForm, TextInput, DateInput, ReferenceManyField, Datagrid, TextField, DateField, EditButton, required, useRecordContext, 
-    useGetOne, usePermissions, TabbedForm, FormTab, Link, FileInput, FileField } from 'react-admin';
+    useGetOne, usePermissions, TabbedForm, FormTab, Link, FileInput, FileField, SelectInput } from 'react-admin';
 import { Box, Chip, useMediaQuery, Theme } from '@mui/material';
 
 import { useNavigate } from "react-router-dom";
@@ -31,7 +31,8 @@ import { setDocumentLoading } from "react-doc-viewer/build/state/actions";
 
 const ProcessoTitle = () => {
     const record = useRecordContext();
-	const { data, isLoading, error } = useGetOne('forms', { id: 1 });
+    //console.log(record?.formId);
+	const { data, isLoading, error } = record ? useGetOne('forms', { id: record?.formId }):{};
 	
     return (
         <span>
@@ -41,7 +42,7 @@ const ProcessoTitle = () => {
 };
 
 const ProcessosEdit = () => (
-    <Edit component="div" title={<ProcessoTitle/>}  sx={{backgroundColor: 'inherit', height: '100%', width: '100%', 
+    <Edit aside={<ASide></ASide>} component="div" title={<ProcessoTitle/>}  sx={{backgroundColor: 'inherit', height: '100%', width: '100%', 
     '& .RaEdit-main': {
         height: '100%',
         marginTop: '0'
@@ -90,17 +91,22 @@ const Visao3 = () => {
                         <FormTab label="Novo Despacho">
                             <div style={{display: 'flex', padding: '1em 0em 1em 0em', gap: '1em'}}>
 
-                            <DateInput source={`tramites[${tramiteAtual}].data`} validate={required()} />
-                            <TextInput source={`tramites[${proximoTramite}].autor.nome`} validate={required()} defaultValue="Fufufufufu" />
+                            <DateInput label="Data" source={`tramites[${tramiteAtual}].data`} validate={required()} />
+                            <TextInput label="Próximo Setor" source={`tramites[${proximoTramite}].autor.nome`} validate={required()} defaultValue="Fufufufufu" />
                             <TextInput source={`tramites[${proximoTramite}].autor.cpf`} validate={required()} defaultValue="000.123.456-78" />
                             
                             </div>
-                            <TextInput source={`tramites[${tramiteAtual}].conteudo[0].nome`} validate={required()} defaultValue="Despacho" fullWidth  />
+
+                            <SelectInput source={`tramites[${tramiteAtual}].conteudo[0].nome`} fullWidth validate={required()} defaultValue={"Despacho"}  label="Tipo de Documento" choices={[
+                                { id: 'Despacho', name: 'Despacho' },
+                                { id: 'Decisao', name: 'Decisão' }
+                            ]} />
+
                             <TextInput source={`tramites[${tramiteAtual}].conteudo[0].dataPrefix`} validate={required()} defaultValue="data:text/html;charset=utf-8," fullWidth hidden />
                             
                             <RichTextInput
                                 source={`tramites[${tramiteAtual}].conteudo[0].data`}
-                                label="Conteúdo do tramite"
+                                label="Conteúdo"
                                 validate={required()}
                                 fullWidth
                             />

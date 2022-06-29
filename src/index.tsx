@@ -17,6 +17,8 @@ import tags from './tags';
 import forms from './forms';
 import processos from './processos';
 
+import ProcessosNovo from './processos/ProcessosNovo';
+
 import { EditForm } from "./formio/EditForm";
 import { DisplayForm } from "./formio/DisplayForm";
 
@@ -34,8 +36,8 @@ render(
         >
             <CustomRoutes >
                 <Route
-                    path="/novo-processo"
-                    element={<div id="builder">ee</div>}
+                    path="/novo-processo/*"
+                    element={<ProcessosNovo></ProcessosNovo>}
                 />
             </CustomRoutes>
             <CustomRoutes>

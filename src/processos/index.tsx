@@ -7,6 +7,6 @@ export default {
     list: ProcessosList,
     create: ProcessosCreate,
     edit: ProcessosEdit,
-    show: ProcessosShow,
+    //show: ProcessosShow,
     //icon: BookIcon,
 }

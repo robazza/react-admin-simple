@@ -57,7 +57,7 @@ const MyMenu = memo((props) => {
     <>
         <Menu {...props}>
             <MenuItemLink to="/processos" primaryText="Meus Processos" leftIcon={<BookIcon />}/>
-            <MenuItemLink to="/posts" primaryText="Abrir Processo" leftIcon={<BookIcon />}/>
+            <MenuItemLink to="/novo-processo" primaryText="Abrir Processo" leftIcon={<BookIcon />}/>
         </Menu>
 
         <Menu {...props}></Menu> 

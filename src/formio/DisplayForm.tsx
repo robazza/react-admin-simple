@@ -10,7 +10,7 @@ function isJsonString(str) {
   return true;
 }
 
-export const DisplayForm = ({definition, onSetFormData, errors }) => { 
+export const DisplayForm = ({definition, ref, onSetFormData, errors }) => { 
   const [formData, setFormData] = useState({});
   var frm = {
     display: "form",
@@ -23,15 +23,14 @@ export const DisplayForm = ({definition, onSetFormData, errors }) => {
   if (definition && isJsonString(definition))
     frm = JSON.parse(definition);
 
-
+    
 
   return (
     <div>
-      <h2>Create Forms</h2>
       <hr />
         {JSON.stringify(formData.data)}
         <Form
-          form={frm} options={{readOnly: false, 
+          form={frm} formReady={()=>console.log('xxxxxxxxxxxxxxxxxxxxxxxxxx')} options={{readOnly: false, 
             //viewAsHtml: true,
             //renderMode: 'html'
           }}
