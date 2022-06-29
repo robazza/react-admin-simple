@@ -33,6 +33,7 @@ import {
     useCreateSuggestionContext,
     EditActionsProps,
     usePermissions,
+    useGetOne
 } from 'react-admin'; // eslint-disable-line import/no-unresolved
 import {
     Box,
@@ -110,7 +111,6 @@ const categories = [
 const FormEdit = () => {
     const { permissions } = usePermissions();
     const [frmData, setFrmData] = useState(0);
-    
 
     return (
         <Edit title={<FormTitle />} actions={<EditActions />}>

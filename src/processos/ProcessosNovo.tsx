@@ -80,8 +80,23 @@ const ProcessoCreateToolbar = props => {
 };
 
 
+const Visao1 = () => {
+    
+    const def = {"display":"form","components":[{"label":"Address","tableView":false,"provider":"nominatim","key":"address","type":"address","providerOptions":{"params":{"autocompleteOptions":{}}},"input":true,"components":[{"label":"Address 1","tableView":false,"key":"address1","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"},{"label":"Address 2","tableView":false,"key":"address2","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"},{"label":"City","tableView":false,"key":"city","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"},{"label":"State","tableView":false,"key":"state","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"},{"label":"Country","tableView":false,"key":"country","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"},{"label":"Zip Code","tableView":false,"key":"zip","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"}]},{"label":"Comprovante endereço","tableView":false,"storage":"base64","webcam":false,"fileTypes":[{"label":"","value":""}],"key":"Comprovante_Endereco","type":"file","input":true},{"label":"Nome","tableView":true,"key":"Nome","type":"textfield","input":true},{"label":"Outros Documentos","tableView":false,"storage":"base64","webcam":false,"fileTypes":[{"label":"","value":""}],"multiple":true,"key":"Outros_Documentos","type":"file","input":true},{"label":"Gabriel","tableView":true,"key":"Gabriel_doidao","type":"textfield","input":true},{"label":"iiii","tableView":true,"modalEdit":true,"key":"textField","type":"textfield","input":true},{"label":"Text Field","tableView":true,"type":"textfield","input":true,"key":"textField1"},{"label":"e-mail","tableView":true,"key":"email","type":"email","input":true},{"type":"button","label":"Submit","key":"submit","disableOnInvalid":true,"input":true,"tableView":false}]};
+
+
+
+    return (<>
+        <DisplayForm definition={/*data?.definition*/ JSON.stringify(def)} />
+    </>)
+
+}; 
+
 
 const ProcessosNovo = () => {
+    
+    const { data, isLoading, error } = useGetOne('forms', { id: /*record?.formId*/ 1 },{retry:false, staleTime:9999999});
+
     const defaultValues = useMemo(
         () => ({
             //average_note: 0,
@@ -89,7 +104,6 @@ const ProcessosNovo = () => {
         []
     );
 
-    const formioDisplayRef = useRef();
 
     const { permissions } = usePermissions();
     const dateDefaultValue = useMemo(() => new Date(), []);
@@ -99,16 +113,31 @@ const ProcessosNovo = () => {
     const [frmData, setFrmData] = useState(0);
 
 
-    console.log(formioDisplayRef);
 
     //console.log(record?.formId);
-	const { data, isLoading, error } = useGetOne('forms', { id: /*record?.formId*/ 1 });
+	
+
+    React.useEffect(()=>{
+        
+    });
+
+
+    const def = {"display":"form","components":[{"label":"Address","tableView":false,"provider":"nominatim","key":"address","type":"address","providerOptions":{"params":{"autocompleteOptions":{}}},"input":true,"components":[{"label":"Address 1","tableView":false,"key":"address1","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"},{"label":"Address 2","tableView":false,"key":"address2","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"},{"label":"City","tableView":false,"key":"city","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"},{"label":"State","tableView":false,"key":"state","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"},{"label":"Country","tableView":false,"key":"country","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"},{"label":"Zip Code","tableView":false,"key":"zip","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"}]},{"label":"Comprovante endereço","tableView":false,"storage":"base64","webcam":false,"fileTypes":[{"label":"","value":""}],"key":"Comprovante_Endereco","type":"file","input":true},{"label":"Nome","tableView":true,"key":"Nome","type":"textfield","input":true},{"label":"Outros Documentos","tableView":false,"storage":"base64","webcam":false,"fileTypes":[{"label":"","value":""}],"multiple":true,"key":"Outros_Documentos","type":"file","input":true},{"label":"Gabriel","tableView":true,"key":"Gabriel_doidao","type":"textfield","input":true},{"label":"iiii","tableView":true,"modalEdit":true,"key":"textField","type":"textfield","input":true},{"label":"Text Field","tableView":true,"type":"textfield","input":true,"key":"textField1"},{"label":"e-mail","tableView":true,"key":"email","type":"email","input":true},{"type":"button","label":"Submit","key":"submit","disableOnInvalid":true,"input":true,"tableView":false}]};
+
+    if (isLoading) { return <>LOADING</>; }
+    if (error) { return <p>ERROR</p>; }
+
+    return (<> {error} {isLoading}
+        <DisplayForm definition={/*data?.definition*/ JSON.stringify(def)} />
+    </>)
 
 
     const transformFn = (data) => {
         console.log(data);
         return {...data, tramites:[]}
     }
+
+
 
     return (
         <Create redirect="edit" transform={transformFn} resource="processo">
@@ -170,18 +199,16 @@ const ProcessosNovo = () => {
 
 
                 <FormTab label="Formulário Inicial">
-                <TextInput
-                        autoFocus
-                        fullWidth
-                        source="numero"
-                        validate={required('Required field')}
 
 
-                        
 
-                    />
+                            <DisplayForm definition={/*data?.definition*/ JSON.stringify(def)} />
+                            
+ 
 
-                <DisplayForm ref={formioDisplayRef} definition={data?.definition} onSetFormData={setFrmData}/>
+                    
+
+                
 
                 </FormTab>
             </TabbedForm>

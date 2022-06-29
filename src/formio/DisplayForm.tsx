@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FormBuilder, FormEdit, Errors, Form } from "react-formio";
+
+//import Form from "./Form";
 
 function isJsonString(str) {
   try {
@@ -12,6 +14,7 @@ function isJsonString(str) {
 
 export const DisplayForm = ({definition, ref, onSetFormData, errors }) => { 
   const [formData, setFormData] = useState({});
+
   var frm = {
     display: "form",
     components: [
@@ -28,9 +31,9 @@ export const DisplayForm = ({definition, ref, onSetFormData, errors }) => {
   return (
     <div>
       <hr />
-        {JSON.stringify(formData.data)}
+
         <Form
-          form={frm} formReady={()=>console.log('xxxxxxxxxxxxxxxxxxxxxxxxxx')} options={{readOnly: false, 
+          form={frm}  options={{//readOnly: false, 
             //viewAsHtml: true,
             //renderMode: 'html'
           }}
