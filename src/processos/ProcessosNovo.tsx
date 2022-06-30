@@ -44,6 +44,8 @@ import ReactPDF from '@react-pdf/renderer';
 
 import { Form } from "react-formio";
 
+import { MyPdfDoc } from '../pdfform/MyPdfDoc';
+
 const ProcessoCreateToolbar = props => {
     const notify = useNotify();
     const redirect = useRedirect();
@@ -127,48 +129,36 @@ const PdfBase64 = ({document}) => {
 }
  
 const FormioFormField = ({source, form}) => {
-    const formioForm = useController({ name: source??'formioFormData' });
+    const formioForm = useController({ name: source??'formioFormData', rules:{ required: true } });
+    const [filling, setFilling] = useState(false);
 
     const onClick = (e)=>{
         e.preventDefault();
         formioForm.field.onChange( {duba:{ee:1, bb:2}} );
         //console.log(JSON.stringify(mref.current.builder.instance.schema))
-        
-      }
+    }
 
-      var mref2 = React.createRef();
-      window.mref2=mref2;
+    const submit = (f) => {
+        formioForm.field.onChange( f.data );
+        setFilling(false);
+    }
 
-    React.useEffect(()=>{
-        setTimeout(
-            () => {
-                mref2.current?.formio?.on('change', (x)=>formioForm.field.onChange( x.data ))
-            }, 1000
+    var mref2 = React.createRef();
+    //mref2.current?.formio?.on('change', (x)=>formioForm.field.onChange( x.data ))
+    window.formioForm = formioForm;
+    console.log(formioForm)
+
+    if (filling)
+        return <Form form={JSON.parse(form)} ref={mref2} onSubmit={submit} submission={{data:formioForm?.field.value}}/>
+    else 
+    if (formioForm?.field.value)
+        return (
+            <>
+                <button onClick={()=>setFilling(true)}>Alterar Formulário</button>
+                <MyPdfDoc formData={formioForm?.field.value}></MyPdfDoc>
+            </>
         )
-       
-        //console.log(mref2)
-    });
-
-        
-
-        const Greeting = React.memo(props => {
-            console.log("Greeting Comp render");
-            return <Form form={JSON.parse(form)} ref={mref2} />;
-          });
-
-    console.log('ee')
-
-   console.log(formioForm);
-
-    return (<>
-        {form ? 
-        (<Form
-        form={JSON.parse(form)} ref={mref2} submission={ formioForm?.field?.value }
-        /*onChange={(schema) => formioForm.field.onChange( {duba:{ee:1, bb:2}} )} */
-        />) : <></>}
-
-        <button onClick={onClick}>Clique Aqui para Setar O VALOR</button>
-    </>)
+    else return (<><button onClick={()=>setFilling(true)}>Clique Aqui para Preencher o Formulário</button> </>)
 }
 
 const ProcessosNovo = () => {
@@ -202,7 +192,10 @@ const ProcessosNovo = () => {
 
     const transformFn = (data) => {
         console.log(data);
-        return {...data, tramites:[]}
+
+        //Alterar dados do formulário antes envio
+
+    return {...data, /*tramites:[]*/}
     }
 
 
@@ -251,8 +244,15 @@ const ProcessosNovo = () => {
                         validate={required('Required field')}
                     />
 
-
         
+                    <DateInput label="Data" source={`tramites[0].data`} validate={required()} defaultValue={dateDefaultValue}/>
+
+                    <TextInput
+                        autoFocus
+                        fullWidth
+                        source="tramites[1].autor.nome"
+                        defaultValue={data.primeiroSetor}
+                    />
 
                     {permissions === 'admin' && (
                         <>Sou ADMIN</> 
