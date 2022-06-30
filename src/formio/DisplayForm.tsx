@@ -12,6 +12,9 @@ function isJsonString(str) {
   return true;
 }
 
+var mref2 = React.createRef();
+window.mref2=mref2;
+
 export const DisplayForm = ({definition, ref, onSetFormData, errors }) => { 
   const [formData, setFormData] = useState({});
 
@@ -33,12 +36,12 @@ export const DisplayForm = ({definition, ref, onSetFormData, errors }) => {
       <hr />
 
         <Form
-          form={frm}  options={{//readOnly: false, 
+          form={frm} ref={mref2} options={{//readOnly: false, 
             //viewAsHtml: true,
             //renderMode: 'html'
           }}
-          //onChange={(schema) => console.log(schema)}
-          onSubmit={(x) => onSetFormData(x.data)}
+          onChange={(schema) => console.log(schema)}
+          onSubmit={(x) => onSetFormData(x.data)} 
         />
     </div>
   )

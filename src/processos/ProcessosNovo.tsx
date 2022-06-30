@@ -38,6 +38,12 @@ import { useFormContext, useWatch } from 'react-hook-form';
 
 import { DisplayForm } from "../formio/DisplayForm";
 
+import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer'
+
+import ReactPDF from '@react-pdf/renderer';
+
+import { Form } from "react-formio";
+
 const ProcessoCreateToolbar = props => {
     const notify = useNotify();
     const redirect = useRedirect();
@@ -80,18 +86,90 @@ const ProcessoCreateToolbar = props => {
 };
 
 
-const Visao1 = () => {
-    
-    const def = {"display":"form","components":[{"label":"Address","tableView":false,"provider":"nominatim","key":"address","type":"address","providerOptions":{"params":{"autocompleteOptions":{}}},"input":true,"components":[{"label":"Address 1","tableView":false,"key":"address1","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"},{"label":"Address 2","tableView":false,"key":"address2","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"},{"label":"City","tableView":false,"key":"city","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"},{"label":"State","tableView":false,"key":"state","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"},{"label":"Country","tableView":false,"key":"country","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"},{"label":"Zip Code","tableView":false,"key":"zip","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"}]},{"label":"Comprovante endereço","tableView":false,"storage":"base64","webcam":false,"fileTypes":[{"label":"","value":""}],"key":"Comprovante_Endereco","type":"file","input":true},{"label":"Nome","tableView":true,"key":"Nome","type":"textfield","input":true},{"label":"Outros Documentos","tableView":false,"storage":"base64","webcam":false,"fileTypes":[{"label":"","value":""}],"multiple":true,"key":"Outros_Documentos","type":"file","input":true},{"label":"Gabriel","tableView":true,"key":"Gabriel_doidao","type":"textfield","input":true},{"label":"iiii","tableView":true,"modalEdit":true,"key":"textField","type":"textfield","input":true},{"label":"Text Field","tableView":true,"type":"textfield","input":true,"key":"textField1"},{"label":"e-mail","tableView":true,"key":"email","type":"email","input":true},{"type":"button","label":"Submit","key":"submit","disableOnInvalid":true,"input":true,"tableView":false}]};
+const MyDocument = () => (
+    <Document>
+      <Page size="A4" >
+        <View >
+          <Text>Section #1</Text>
+        </View>
+        <View>
+          <Text>Section #2</Text>
+        </View>
+      </Page>
+    </Document>
+  );
 
 
+const PdfBase64 = ({document}) => {
+    const [pdfData, setPdfData] = useState("");
+
+    const [instance, updateInstance] = ReactPDF.usePDF({ document: document });
+
+    if (instance.loading) return <div>Loading ...</div>;
+
+    if (instance.error) return <div>Something went wrong: {error}</div>;
+
+    const getBase64 = (file, cb) => {
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+            cb(reader.result)
+        };
+        reader.onerror = function (error) {
+            console.log('Error: ', error);
+        };
+    }
+
+    if (instance.blob)
+      getBase64(instance.blob, setPdfData)
+
+    return (<>{pdfData}</>)
+}
+ 
+const FormioFormField = ({source, form}) => {
+    const formioForm = useController({ name: source??'formioFormData' });
+
+    const onClick = (e)=>{
+        e.preventDefault();
+        formioForm.field.onChange( {duba:{ee:1, bb:2}} );
+        //console.log(JSON.stringify(mref.current.builder.instance.schema))
+        
+      }
+
+      var mref2 = React.createRef();
+      window.mref2=mref2;
+
+    React.useEffect(()=>{
+        setTimeout(
+            () => {
+                mref2.current?.formio?.on('change', (x)=>formioForm.field.onChange( x.data ))
+            }, 1000
+        )
+       
+        //console.log(mref2)
+    });
+
+        
+
+        const Greeting = React.memo(props => {
+            console.log("Greeting Comp render");
+            return <Form form={JSON.parse(form)} ref={mref2} />;
+          });
+
+    console.log('ee')
+
+   console.log(formioForm);
 
     return (<>
-        <DisplayForm definition={/*data?.definition*/ JSON.stringify(def)} />
+        {form ? 
+        (<Form
+        form={JSON.parse(form)} ref={mref2} submission={ formioForm?.field?.value }
+        /*onChange={(schema) => formioForm.field.onChange( {duba:{ee:1, bb:2}} )} */
+        />) : <></>}
+
+        <button onClick={onClick}>Clique Aqui para Setar O VALOR</button>
     </>)
-
-}; 
-
+}
 
 const ProcessosNovo = () => {
     
@@ -113,23 +191,13 @@ const ProcessosNovo = () => {
     const [frmData, setFrmData] = useState(0);
 
 
-
-    //console.log(record?.formId);
-	
-
-    React.useEffect(()=>{
-        
-    });
+    const [formioFormData, setFormioFormData] = useState({});
 
 
     const def = {"display":"form","components":[{"label":"Address","tableView":false,"provider":"nominatim","key":"address","type":"address","providerOptions":{"params":{"autocompleteOptions":{}}},"input":true,"components":[{"label":"Address 1","tableView":false,"key":"address1","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"},{"label":"Address 2","tableView":false,"key":"address2","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"},{"label":"City","tableView":false,"key":"city","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"},{"label":"State","tableView":false,"key":"state","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"},{"label":"Country","tableView":false,"key":"country","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"},{"label":"Zip Code","tableView":false,"key":"zip","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"}]},{"label":"Comprovante endereço","tableView":false,"storage":"base64","webcam":false,"fileTypes":[{"label":"","value":""}],"key":"Comprovante_Endereco","type":"file","input":true},{"label":"Nome","tableView":true,"key":"Nome","type":"textfield","input":true},{"label":"Outros Documentos","tableView":false,"storage":"base64","webcam":false,"fileTypes":[{"label":"","value":""}],"multiple":true,"key":"Outros_Documentos","type":"file","input":true},{"label":"Gabriel","tableView":true,"key":"Gabriel_doidao","type":"textfield","input":true},{"label":"iiii","tableView":true,"modalEdit":true,"key":"textField","type":"textfield","input":true},{"label":"Text Field","tableView":true,"type":"textfield","input":true,"key":"textField1"},{"label":"e-mail","tableView":true,"key":"email","type":"email","input":true},{"type":"button","label":"Submit","key":"submit","disableOnInvalid":true,"input":true,"tableView":false}]};
 
     if (isLoading) { return <>LOADING</>; }
     if (error) { return <p>ERROR</p>; }
-
-    return (<> {error} {isLoading}
-        <DisplayForm definition={/*data?.definition*/ JSON.stringify(def)} />
-    </>)
 
 
     const transformFn = (data) => {
@@ -140,7 +208,7 @@ const ProcessosNovo = () => {
 
 
     return (
-        <Create redirect="edit" transform={transformFn} resource="processo">
+        <Create redirect="edit" transform={transformFn} resource="processos">
             <TabbedForm
                 toolbar={<ProcessoCreateToolbar />}
                 defaultValues={defaultValues}
@@ -183,12 +251,7 @@ const ProcessosNovo = () => {
                         validate={required('Required field')}
                     />
 
-                    <FormDataConsumer>
-                        {({ formData, ...rest }) => (
-                            <>{formData?.requerente?.cpf}</>
-                            
-                        )} 
-                    </FormDataConsumer>
+
         
 
                     {permissions === 'admin' && (
@@ -200,14 +263,27 @@ const ProcessosNovo = () => {
 
                 <FormTab label="Formulário Inicial">
 
-
-
-                            <DisplayForm definition={/*data?.definition*/ JSON.stringify(def)} />
-                            
- 
+                    <TextInput
+                        autoFocus
+                        fullWidth
+                        source="numero"
+                        validate={required('Required field')}
+                    />
 
                     
+                    <FormDataConsumer>
+                        {({ formData, ...rest }) => (
+                            <>{JSON.stringify(formData?.formioFormData??'nao')}</>
+                            
+                        )} 
+                    </FormDataConsumer>
+                            
+                    <FormioFormField form={data?.definition} ></FormioFormField>
+                    {JSON.stringify(formioFormData)}
 
+                    {JSON.stringify(record)}
+                    
+                    
                 
 
                 </FormTab>

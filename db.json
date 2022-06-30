@@ -167,64 +167,35 @@
       "filex": null
     },
     {
-      "numero": "qweqwewqeweq",
+      "numero": "sadsad",
       "requerente": {
-        "nome": "sadsad",
-        "cpf": "sad"
-      },
-      "solicitante": {
         "nome": "sad",
         "cpf": "sad"
       },
+      "solicitante": {
+        "nome": "asd",
+        "cpf": "sad"
+      },
+      "tramites": [],
       "id": 3
     },
     {
-      "average_note": 0,
-      "numero": "sdfsdf",
+      "numero": "asdasd",
       "requerente": {
-        "nome": "sdfsdf",
-        "cpf": "sdfsdf"
+        "nome": "sad",
+        "cpf": "asd"
       },
       "solicitante": {
-        "nome": "sdfsdf",
-        "cpf": "sdfsdf"
+        "nome": "asd",
+        "cpf": "sad"
       },
-      "tramites": [
-        {
-          "autor": {
-            "nome": "CONTRIBUINTE",
-            "cpf": "123.456.789-88"
-          },
-          "data": "2022-06-01",
-          "conteudo": [
-            {
-              "nome": "Despacho",
-              "dataPrefix": "data:text/html;charset=utf-8,",
-              "data": "<p>Conteúdo do despacho é esse aaqui. Sem anexos s é á</p>"
-            }
-          ]
-        },
-        {
-          "autor": {
-            "nome": "Eueueueueu",
-            "cpf": "123.456.789-88"
-          },
-          "data": "2022-06-28",
-          "conteudo": [
-            {
-              "nome": "Despacho",
-              "dataPrefix": "data:text/html;charset=utf-8,",
-              "data": "<p>teste 123</p><p>á b c</p>"
-            }
-          ]
-        },
-        {
-          "autor": {
-            "nome": "Fufufufufu",
-            "cpf": "000.123.456-78"
-          }
+      "doidao": {
+        "duba": {
+          "ee": 1,
+          "bb": 2
         }
-      ],
+      },
+      "tramites": [],
       "id": 4
     }
   ],
