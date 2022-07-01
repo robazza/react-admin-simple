@@ -135,7 +135,7 @@ const Visao3 = () => {
                                 <FormDataConsumer>
                                     {({ formData, ...rest }) => (
                                         <div>
-                                            {true&&<MyPdfDoc formData={formData.formioFormData}/>}
+                                            {_.isString(doc)&&<MyPdfDoc formData={formData.formioFormData}/>}
                                         </div>
                                     )}
                                 </FormDataConsumer>
@@ -212,9 +212,12 @@ const TimelineMaterial = ({setDoc}) => {
                                 </StepLabel>
                                 <StepContent>
                     
-                                <div onClick={(e)=>{e.preventDefault()}}><Icon  i="fa-file-pdf-o"/> Formulário Padrão <br/></div>
-                                <div onClick={(e)=>{e.preventDefault()}}><Icon  i="fa-file-pdf-o"/> Formulário Padrão <br/></div>
+                                {i==0 && formioFormData ? <div onClick={(e)=>{e.preventDefault(); setDoc('Formulário Padrão')}}><Icon  i="fa-file-pdf-o"/> Formulário Padrão <br/></div> : <></>}
                     
+                                {i==0 && formioDataToFiles(formioFormData)?.map(arquivo => (
+                                    <div onClick={(e)=>{e.preventDefault(); setDoc([{uri:arquivo.url, nome: arquivo.name}])}}><Icon  i="fa-file-pdf-o"/> {arquivo.name} <br/></div>
+                                ))}                   
+
                                 {event.conteudo?.map(arquivo => (
                                     <div onClick={(e)=>{e.preventDefault(); setDoc([{uri:(arquivo.dataPrefix??'')+arquivo.data, nome: arquivo.nome}])}}><Icon  i="fa-file-pdf-o"/> {arquivo.nome} <br/></div>
                                 ))}

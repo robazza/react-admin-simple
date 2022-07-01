@@ -11,10 +11,12 @@ var frm = {"textField":"","textField1":["10001-1","10002-2"],"textField2":["parc
 window._ = _;
 window.frm=frm;
 
+
+
 // Create Document Component
 export const MyPdfDoc = ({formData}) => {
 
-    console.log(formData)
+    console.log('EEE',formData)
 
     const Table = ({ children }) => (
         <View style={styles.table}>
@@ -36,7 +38,7 @@ export const MyPdfDoc = ({formData}) => {
                 <Text style={styles.tableCell}>{item}</Text> 
             </View> 
             <View style={styles.tableCol}> 
-                <Text style={styles.tableCell}>{_.isArray(value)?value.join("\n"):value}</Text> 
+                <Text style={styles.tableCell}>{_.isArray(value)?value.join("\n"):(value)}</Text> 
           </View> 
         </View> 
     )
@@ -47,8 +49,8 @@ export const MyPdfDoc = ({formData}) => {
             <Document>
                 <Page style={styles.body}>
                     <Table>
-                        {_.map(formData,(v,i,obj) => {
-                            return (<Row item={i} value={JSON.stringify(v)} />)
+                        {_.map(formioDataToPdfFormFields(formData),(v,i,obj) => {
+                            return (<Row item={i} value={_.isString(v)?v:JSON.stringify(v) } />)
                         })}
                     </Table>
                 </Page>
@@ -359,6 +361,37 @@ const Quixote = () => (
       color: 'grey',
     },
   });
+
+  const formioDataToPdfFormFields = (formioAllData) => {
+
+    var arquivos;
+    var addresses;
+    
+    arquivos = _.pickBy(formioAllData, _.isArray)
+    arquivos = _.pickBy(arquivos, (x)=>x.length && x[0].storage==='base64')
+
+    addresses = _.pickBy(formioAllData, _.isObject)
+    addresses = _.pickBy(addresses, (address)=>address.place_id && address.display_name)
+
+    _.omit(formioAllData, _.keys(arquivos))
+    
+
+    return _.mapValues( _.omit(formioAllData, ['submit']) , (x) => {
+        if (_.isArray(x) && x.length && x[0].storage==='base64') {
+            const arquivos = x;
+            return x?.map(x=>`Arquivo ${x.fileType??x.originalName} do tipo '${x.type}'`).join('\n');
+
+
+        }
+        else if (_.isObject(x) && x.place_id && x.display_name) {
+            const address = x;
+            return address.display_name;
+        } else {
+            return x;
+        }
+
+    })
+}
 
 /*
 export const MyPdfDoc = () => (
