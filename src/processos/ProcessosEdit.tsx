@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Edit, Show, SimpleForm, TextInput, DateInput, ReferenceManyField, Datagrid, TextField, DateField, EditButton, required, useRecordContext, 
-    useGetOne, usePermissions, TabbedForm, FormTab, Link, FileInput, FileField, SelectInput } from 'react-admin';
+    useGetOne, usePermissions, TabbedForm, FormTab, Link, FileInput, FileField, SelectInput, FormDataConsumer, } from 'react-admin';
 import { Box, Chip, useMediaQuery, Theme } from '@mui/material';
 
 import { useNavigate } from "react-router-dom";
@@ -28,6 +28,8 @@ import ASide from './ASide';
 
 import DocViewer, { DocViewerRenderers } from "react-doc-viewer";
 import { setDocumentLoading } from "react-doc-viewer/build/state/actions";
+
+import { MyPdfDoc } from "../pdfform/MyPdfDoc";
 
 const ProcessoTitle = () => {
     const record = useRecordContext();
@@ -57,6 +59,11 @@ const ProcessosEdit = () => (
         <Visao3/>
     </Edit>
 );
+
+const SanitizedBox = ({
+    fullWidth,
+    ...props
+}: BoxProps & { fullWidth?: boolean }) => <Box {...props} />;
 
 const Visao3 = () => {
     const { permissions } = usePermissions();
@@ -118,9 +125,25 @@ const Visao3 = () => {
                         </FormTab>
 
                         <FormTab label="Documentos">
+                            <SanitizedBox
+                                display="flex"
+                                flexDirection="column"
+                                width="100%"
+                                justifyContent="space-between"
+                                fullWidth
+                            >
+                                <FormDataConsumer>
+                                    {({ formData, ...rest }) => (
+                                        <div>
+                                            {true&&<MyPdfDoc formData={formData.formioFormData}/>}
+                                        </div>
+                                    )}
+                                </FormDataConsumer>
+                            </SanitizedBox>
+
                         {true && <DocViewer  config={{header:{overrideComponent: NoHeader}}} style={{maxWidth: 'calc(100vw - 500px)', maxHeight: 'calc(100vh - 100px)'}} pluginRenderers={DocViewerRenderers} documents={doc} />}
 
-
+                        
                         </FormTab>
                     </TabbedForm>
                 </CardContent>
@@ -137,8 +160,12 @@ const Icon = ({i}) => <i className={`fa ${i} fa-lg`} aria-hidden="true"/>
 const TimelineMaterial = ({setDoc}) => {
     const record = useRecordContext();
 	
-	
-    const {tramites} = record; 
+    const {tramites, formioFormData} = record; 
+
+    
+    
+
+    //formioDataToFiles(formioFormData)
 
     return (
         <div>
@@ -185,6 +212,8 @@ const TimelineMaterial = ({setDoc}) => {
                                 </StepLabel>
                                 <StepContent>
                     
+                                <div onClick={(e)=>{e.preventDefault()}}><Icon  i="fa-file-pdf-o"/> Formulário Padrão <br/></div>
+                                <div onClick={(e)=>{e.preventDefault()}}><Icon  i="fa-file-pdf-o"/> Formulário Padrão <br/></div>
                     
                                 {event.conteudo?.map(arquivo => (
                                     <div onClick={(e)=>{e.preventDefault(); setDoc([{uri:(arquivo.dataPrefix??'')+arquivo.data, nome: arquivo.nome}])}}><Icon  i="fa-file-pdf-o"/> {arquivo.nome} <br/></div>
@@ -262,4 +291,14 @@ const Timeline = ({setDoc}) => {
 			</div>
 		</>
 	)
+}
+
+const formioDataToFiles = (formioAllData) => {
+
+    var arquivos;
+    
+    arquivos = _.pickBy(formioAllData, _.isArray)
+    arquivos = _.pickBy(arquivos, (x)=>x.length && x[0].storage==='base64')
+
+    return _.flatten(_.map(arquivos, (v,k)=>v.map( vv => ({...vv, api:k}) )));
 }

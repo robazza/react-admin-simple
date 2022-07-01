@@ -70,8 +70,6 @@ const ProcessoCreateToolbar = props => {
     );
 };
 
-
-
 const ProcessosCreate = () => {
     const defaultValues = useMemo(
         () => ({
@@ -95,7 +93,6 @@ const ProcessosCreate = () => {
                 toolbar={<ProcessoCreateToolbar />}
                 defaultValues={defaultValues}
             >
-
                 <TextInput
                     autoFocus
                     fullWidth

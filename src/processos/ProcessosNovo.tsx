@@ -29,11 +29,15 @@ import {
     useNotify,
     usePermissions,
     useRedirect,
-    useRecordContext,
     TabbedForm,
     FormTab,
-    useGetOne
+    useGetOne,
+    useGetIdentity,
+    useRecordContext
 } from 'react-admin';
+
+
+
 import { useFormContext, useWatch } from 'react-hook-form';
 
 import { DisplayForm } from "../formio/DisplayForm";
@@ -45,6 +49,8 @@ import ReactPDF from '@react-pdf/renderer';
 import { Form } from "react-formio";
 
 import { MyPdfDoc } from '../pdfform/MyPdfDoc';
+
+import Switch from '@mui/material/Switch';
 
 const ProcessoCreateToolbar = props => {
     const notify = useNotify();
@@ -127,8 +133,15 @@ const PdfBase64 = ({document}) => {
 
     return (<>{pdfData}</>)
 }
- 
+
+
 const FormioFormField = ({source, form}) => {
+    const formContext = useFormContext();
+    const { data, isLoading, error } = useGetOne('forms', { id: formContext?.getValues().formId },{retry:false, staleTime:9999999});
+
+    //formContext.getValues().formId
+
+
     const formioForm = useController({ name: source??'formioFormData', rules:{ required: true } });
     const [filling, setFilling] = useState(false);
 
@@ -145,11 +158,10 @@ const FormioFormField = ({source, form}) => {
 
     var mref2 = React.createRef();
     //mref2.current?.formio?.on('change', (x)=>formioForm.field.onChange( x.data ))
-    window.formioForm = formioForm;
-    console.log(formioForm)
+    
 
     if (filling)
-        return <Form form={JSON.parse(form)} ref={mref2} onSubmit={submit} submission={{data:formioForm?.field.value}}/>
+        return <><Form form={JSON.parse(data?.definition)} ref={mref2} onSubmit={submit} submission={{data:formioForm?.field.value}}/></>
     else 
     if (formioForm?.field.value)
         return (
@@ -158,12 +170,15 @@ const FormioFormField = ({source, form}) => {
                 <MyPdfDoc formData={formioForm?.field.value}></MyPdfDoc>
             </>
         )
-    else return (<><button onClick={()=>setFilling(true)}>Clique Aqui para Preencher o Formulário</button> </>)
+    else return (<>{/*JSON.stringify(formContext?.getValues().formId)*/} <button onClick={()=>setFilling(true)}>Clique Aqui para Preencher o Formulário</button> </>)
 }
 
 const ProcessosNovo = () => {
     
     const { data, isLoading, error } = useGetOne('forms', { id: /*record?.formId*/ 1 },{retry:false, staleTime:9999999});
+    const { identity, isLoading: identityLoading } = useGetIdentity();
+
+    
 
     const defaultValues = useMemo(
         () => ({
@@ -176,7 +191,7 @@ const ProcessosNovo = () => {
     const { permissions } = usePermissions();
     const dateDefaultValue = useMemo(() => new Date(), []);
 
-    const record = useRecordContext();
+    
 
     const [frmData, setFrmData] = useState(0);
 
@@ -202,12 +217,13 @@ const ProcessosNovo = () => {
 
     return (
         <Create redirect="edit" transform={transformFn} resource="processos">
+            
             <TabbedForm
                 toolbar={<ProcessoCreateToolbar />}
                 defaultValues={defaultValues}
             >
                 <FormTab label="Informações Básicas">
-
+                   
                     <TextInput
                         autoFocus
                         fullWidth
@@ -215,25 +231,21 @@ const ProcessosNovo = () => {
                         validate={required('Required field')}
                     />
 
-                    <TextInput
-                        autoFocus
-                        fullWidth
-                        source="requerente.nome"
-                        validate={required('Required field')}
-                    />
 
-                    <TextInput
-                        autoFocus
-                        fullWidth
-                        source="requerente.cpf"
-                        validate={required('Required field')}
-                    />
+                    {false&&<ReferenceInput label="Post" source="formId" reference="forms" disabled>
+                        <SelectInput optionText="title" disabled />
+                    </ReferenceInput>}
 
+                    <SelectInput source="formId" validate={required('Required field')} choices={[
+                        { id: '1', name: 'Op 1' }
+                    ]} />
 
                     <TextInput
                         autoFocus
                         fullWidth
                         source="solicitante.nome"
+                        defaultValue={identity?.nome}
+                        disabled
                         validate={required('Required field')}
                     />
 
@@ -241,8 +253,39 @@ const ProcessosNovo = () => {
                         autoFocus
                         fullWidth
                         source="solicitante.cpf"
+                        defaultValue={identity?.cpf}
+                        disabled
                         validate={required('Required field')}
                     />
+
+                    <BooleanInput label="Estou pedindo para outra pessoa" source="procuracao" />
+
+                    {true&&<FormDataConsumer>
+                        {({ formData, ...rest }) => (
+                            <>
+                                <TextInput
+                                    autoFocus
+                                    fullWidth
+                                    source="requerente.nome"
+                                    defaultValue={identity?.nome}
+                                    hidden = {!formData.procuracao}
+                                    
+                                    validate={required('Required field')}
+                                />
+
+                                <TextInput
+                                    autoFocus
+                                    fullWidth
+                                    source="requerente.cpf"
+                                    defaultValue={identity?.cpf}
+                                    hidden = {!formData.procuracao}
+                                    
+                                    validate={required('Required field')}
+                                />
+                            </>)} 
+                    </FormDataConsumer>}
+
+
 
         
                     <DateInput label="Data" source={`tramites[0].data`} validate={required()} defaultValue={dateDefaultValue}/>
@@ -263,25 +306,9 @@ const ProcessosNovo = () => {
 
                 <FormTab label="Formulário Inicial">
 
-                    <TextInput
-                        autoFocus
-                        fullWidth
-                        source="numero"
-                        validate={required('Required field')}
-                    />
-
-                    
-                    <FormDataConsumer>
-                        {({ formData, ...rest }) => (
-                            <>{JSON.stringify(formData?.formioFormData??'nao')}</>
-                            
-                        )} 
-                    </FormDataConsumer>
                             
                     <FormioFormField form={data?.definition} ></FormioFormField>
-                    {JSON.stringify(formioFormData)}
 
-                    {JSON.stringify(record)}
                     
                     
                 
@@ -292,7 +319,7 @@ const ProcessosNovo = () => {
     );
 };
 
-const processFormioData = (formioAllData) => {
+const formioDataToPdfFormFields = (formioAllData) => {
 
     var arquivos;
     var addresses;
@@ -320,8 +347,17 @@ const processFormioData = (formioAllData) => {
         }
 
     })
-
-
 }
+
+const formioDataToFiles = (formioAllData) => {
+
+    var arquivos;
+    
+    arquivos = _.pickBy(formioAllData, _.isArray)
+    arquivos = _.pickBy(arquivos, (x)=>x.length && x[0].storage==='base64')
+
+    return _.flatten(_.map(arquivos, (v,k)=>v.map( vv => ({...vv, api:k}) )));
+}
+
 
 export default ProcessosNovo;
