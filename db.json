@@ -519,6 +519,15 @@
       "showDefinition": false,
       "primeiroSetor": "CRC",
       "procedimento": "<p>Consulte o guia completo na intranet em <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://www.w3schools.com/\">https://www.w3schools.com/</a></p>"
+    },
+    {
+      "average_note": 0,
+      "title": "Restituição de IPTU",
+      "id": 2,
+      "primeiroSetor": "CAR",
+      "procedimento": "<p>m</p>",
+      "showDefinition": false,
+      "definition": "{\"display\":\"form\",\"components\":[{\"label\":\"Text Field\",\"tableView\":true,\"key\":\"textField\",\"type\":\"textfield\",\"input\":true},{\"type\":\"button\",\"label\":\"Submit\",\"key\":\"submit\",\"disableOnInvalid\":true,\"input\":true,\"tableView\":false}]}"
     }
   ],
   "posts": [

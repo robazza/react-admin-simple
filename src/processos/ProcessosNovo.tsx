@@ -32,6 +32,7 @@ import {
     TabbedForm,
     FormTab,
     useGetOne,
+	useGetList,
     useGetIdentity,
     useRecordContext
 } from 'react-admin';
@@ -135,7 +136,7 @@ const PdfBase64 = ({document}) => {
 }
 
 
-const FormioFormField = ({source, form}) => {
+const FormioFormField = ({source}) => {
     const formContext = useFormContext();
     const { data, isLoading, error } = useGetOne('forms', { id: formContext?.getValues().formId },{retry:false, staleTime:9999999});
 
@@ -173,9 +174,28 @@ const FormioFormField = ({source, form}) => {
     else return (<>{/*JSON.stringify(formContext?.getValues().formId)*/} <button onClick={()=>setFilling(true)}>Clique Aqui para Preencher o Formulário</button> </>)
 }
 
+const SelectForm = () => {
+    const formContext = useFormContext();
+    //const { data, isLoading, error } = useGetOne('forms', { id: formContext?.getValues().formId },{retry:false, staleTime:9999999});
+
+	const { data, total, isLoading, error, refetch } = useGetList(
+		'forms',
+		{ pagination:{ page: 1, perPage: 100 }, sort: { field: 'id', order: 'ASC' }},
+		{retry:false, staleTime:9999999}
+	);
+
+	if (isLoading || error)
+		return <></>;
+
+	return	<SelectInput source="formId" validate={required('Required field')} choices={
+			data?.map(x=>({id:x.id, name: x.title}))
+		} />;
+		
+}
+
+
 const ProcessosNovo = () => {
-    
-    const { data, isLoading, error } = useGetOne('forms', { id: /*record?.formId*/ 1 },{retry:false, staleTime:9999999});
+    //const { data, isLoading, error } = useGetOne('forms', { id: /*record?.formId*/ 1 },{retry:false, staleTime:9999999});
     const { identity, isLoading: identityLoading } = useGetIdentity();
 
     
@@ -198,19 +218,21 @@ const ProcessosNovo = () => {
 
     const [formioFormData, setFormioFormData] = useState({});
 
+    //if (isLoading) { return <>LOADING</>; }
+    //if (error) { return <p>ERROR</p>; }
 
-    const def = {"display":"form","components":[{"label":"Address","tableView":false,"provider":"nominatim","key":"address","type":"address","providerOptions":{"params":{"autocompleteOptions":{}}},"input":true,"components":[{"label":"Address 1","tableView":false,"key":"address1","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"},{"label":"Address 2","tableView":false,"key":"address2","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"},{"label":"City","tableView":false,"key":"city","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"},{"label":"State","tableView":false,"key":"state","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"},{"label":"Country","tableView":false,"key":"country","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"},{"label":"Zip Code","tableView":false,"key":"zip","type":"textfield","input":true,"customConditional":"show = _.get(instance, 'parent.manualMode', false);"}]},{"label":"Comprovante endereço","tableView":false,"storage":"base64","webcam":false,"fileTypes":[{"label":"","value":""}],"key":"Comprovante_Endereco","type":"file","input":true},{"label":"Nome","tableView":true,"key":"Nome","type":"textfield","input":true},{"label":"Outros Documentos","tableView":false,"storage":"base64","webcam":false,"fileTypes":[{"label":"","value":""}],"multiple":true,"key":"Outros_Documentos","type":"file","input":true},{"label":"Gabriel","tableView":true,"key":"Gabriel_doidao","type":"textfield","input":true},{"label":"iiii","tableView":true,"modalEdit":true,"key":"textField","type":"textfield","input":true},{"label":"Text Field","tableView":true,"type":"textfield","input":true,"key":"textField1"},{"label":"e-mail","tableView":true,"key":"email","type":"email","input":true},{"type":"button","label":"Submit","key":"submit","disableOnInvalid":true,"input":true,"tableView":false}]};
-
-    if (isLoading) { return <>LOADING</>; }
-    if (error) { return <p>ERROR</p>; }
-
+	if (identityLoading) { return <>LOADING</>; }
 
     const transformFn = (data) => {
         console.log(data);
 
         //Alterar dados do formulário antes envio
 
-    return {...data, /*tramites:[]*/}
+
+        
+
+
+		return {...data, /*tramites:[]*/}
     }
 
 
@@ -223,7 +245,7 @@ const ProcessosNovo = () => {
                 defaultValues={defaultValues}
             >
                 <FormTab label="Informações Básicas">
-                   
+				
                     <TextInput
                         autoFocus
                         fullWidth
@@ -236,9 +258,7 @@ const ProcessosNovo = () => {
                         <SelectInput optionText="title" disabled />
                     </ReferenceInput>}
 
-                    <SelectInput source="formId" validate={required('Required field')} choices={[
-                        { id: '1', name: 'Op 1' }
-                    ]} />
+                    <SelectForm></SelectForm>
 
                     <TextInput
                         autoFocus
@@ -294,7 +314,7 @@ const ProcessosNovo = () => {
                         autoFocus
                         fullWidth
                         source="tramites[1].autor.nome"
-                        defaultValue={data.primeiroSetor}
+                        defaultValue={/*data.primeiroSetor*/ 'CRC'}
                     />
 
                     {permissions === 'admin' && (
@@ -307,11 +327,9 @@ const ProcessosNovo = () => {
                 <FormTab label="Formulário Inicial">
 
                             
-                    <FormioFormField form={data?.definition} ></FormioFormField>
+                    <FormioFormField></FormioFormField>
 
                     
-                    
-                
 
                 </FormTab>
             </TabbedForm>
