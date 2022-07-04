@@ -92,6 +92,14 @@ const FormCreate = () => {
                     validate={required('Required field')}
                 />
 
+                <TextInput
+                    autoFocus
+                    fullWidth
+                    source="definition"
+                    defaultValue="{}"
+                    hidden
+                />
+
                 {permissions === 'admin' && (
                     <>Sou ADMIN</>
                 )}

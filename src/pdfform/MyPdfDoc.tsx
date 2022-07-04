@@ -3,20 +3,25 @@ import { Page, Text, Image, View, Document, StyleSheet, Font } from '@react-pdf/
 import { PDFViewer } from '@react-pdf/renderer';
 import _ from 'lodash';
 
+import {useGetOne} from 'react-admin';
+import { FormBuilder, FormEdit, Errors, Form } from "react-formio";
 
 // Create styles
 
-var frm = {"textField":"","textField1":["10001-1","10002-2"],"textField2":["parcelamento 1","parcelamento 2"],"email":"ewqwe@gmail.com","submit":true}
+var frm = {}
 
-window._ = _;
-window.frm=frm;
 
 
 
 // Create Document Component
-export const MyPdfDoc = ({formData}) => {
+export const MyPdfDoc = ({formData, formId}) => {
 
-    console.log('EEE',formData)
+    const { data, isLoading, error } = formId && useGetOne('forms', { id: formId },{retry:false, staleTime:9999999}) || {};
+
+
+    console.log('EEE',data);
+
+    var formDefinition = data?.definition && JSON.parse(data?.definition);
 
     const Table = ({ children }) => (
         <View style={styles.table}>
@@ -45,7 +50,9 @@ export const MyPdfDoc = ({formData}) => {
 
     return (
         <div >  
-        <PDFViewer showToolbar height='100%' width='100%' style={{'min-height':'600px', 'max-width':'1000px'}}> 
+          formId:{formId} <br/>
+          Nome:{data?.title} <br/>
+        {!(data?.render==='form')&&<PDFViewer showToolbar height='100%' width='100%' style={{'min-height':'600px', 'max-width':'1000px'}}> 
             <Document>
                 <Page style={styles.body}>
                     <Table>
@@ -56,7 +63,17 @@ export const MyPdfDoc = ({formData}) => {
                 </Page>
             </Document>
             
-        </PDFViewer> 
+        </PDFViewer>} 
+
+        {(data?.render==='form')&&<Form
+          form={formDefinition} submission={{data:formData}} options={{readOnly: true, 
+            //viewAsHtml: true,
+            //renderMode: 'html'
+          }}
+ 
+        />}
+
+
         </div>
     )
 

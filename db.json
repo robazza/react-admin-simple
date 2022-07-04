@@ -400,6 +400,7 @@
       "id": 11
     },
     {
+      "average_note": 0,
       "numero": "ererw",
       "formId": "1",
       "solicitante": {
@@ -418,6 +419,20 @@
         {
           "autor": {
             "nome": "CRC"
+          },
+          "data": "2022-07-02",
+          "conteudo": [
+            {
+              "nome": "Despacho",
+              "dataPrefix": "data:text/html;charset=utf-8,",
+              "data": "<p>alguma coisa</p>"
+            }
+          ]
+        },
+        {
+          "autor": {
+            "nome": "CAR",
+            "cpf": "000.123.456-78"
           }
         }
       ],
@@ -467,6 +482,7 @@
       "id": 1,
       "definition": "{\"display\":\"form\",\"components\":[{\"label\":\"Address\",\"tableView\":false,\"provider\":\"nominatim\",\"key\":\"address\",\"type\":\"address\",\"providerOptions\":{\"params\":{\"autocompleteOptions\":{}}},\"input\":true,\"components\":[{\"label\":\"Address 1\",\"tableView\":false,\"key\":\"address1\",\"type\":\"textfield\",\"input\":true,\"customConditional\":\"show = _.get(instance, 'parent.manualMode', false);\"},{\"label\":\"Address 2\",\"tableView\":false,\"key\":\"address2\",\"type\":\"textfield\",\"input\":true,\"customConditional\":\"show = _.get(instance, 'parent.manualMode', false);\"},{\"label\":\"City\",\"tableView\":false,\"key\":\"city\",\"type\":\"textfield\",\"input\":true,\"customConditional\":\"show = _.get(instance, 'parent.manualMode', false);\"},{\"label\":\"State\",\"tableView\":false,\"key\":\"state\",\"type\":\"textfield\",\"input\":true,\"customConditional\":\"show = _.get(instance, 'parent.manualMode', false);\"},{\"label\":\"Country\",\"tableView\":false,\"key\":\"country\",\"type\":\"textfield\",\"input\":true,\"customConditional\":\"show = _.get(instance, 'parent.manualMode', false);\"},{\"label\":\"Zip Code\",\"tableView\":false,\"key\":\"zip\",\"type\":\"textfield\",\"input\":true,\"customConditional\":\"show = _.get(instance, 'parent.manualMode', false);\"}]},{\"label\":\"Comprovante endereço\",\"tableView\":false,\"storage\":\"base64\",\"webcam\":false,\"fileTypes\":[{\"label\":\"\",\"value\":\"\"}],\"key\":\"Comprovante_Endereco\",\"type\":\"file\",\"input\":true},{\"label\":\"Nome\",\"tableView\":true,\"key\":\"Nome\",\"type\":\"textfield\",\"input\":true},{\"label\":\"Outros Documentos\",\"tableView\":false,\"storage\":\"base64\",\"webcam\":false,\"fileTypes\":[{\"label\":\"\",\"value\":\"\"}],\"multiple\":true,\"key\":\"Outros_Documentos\",\"type\":\"file\",\"input\":true},{\"label\":\"Gabriel\",\"tableView\":true,\"key\":\"Gabriel_doidao\",\"type\":\"textfield\",\"input\":true},{\"label\":\"iiii\",\"tableView\":true,\"modalEdit\":true,\"key\":\"textField\",\"type\":\"textfield\",\"input\":true},{\"label\":\"Text Field\",\"tableView\":true,\"type\":\"textfield\",\"input\":true,\"key\":\"textField1\"},{\"label\":\"e-mail\",\"tableView\":true,\"key\":\"email\",\"type\":\"email\",\"input\":true},{\"type\":\"button\",\"label\":\"Submit\",\"key\":\"submit\",\"disableOnInvalid\":true,\"input\":true,\"tableView\":false}]}",
       "title": "2ª Via de tributos e parcelamentos",
+      "render": "pdf",
       "teaser": "In facilis aut aut odit hic doloribus. Fugit possimus perspiciatis sit molestias in. Sunt dignissimos sed quis at vitae veniam amet. Sint sunt perspiciatis quis doloribus aperiam numquam consequatur et. Blanditiis aut earum incidunt eos magnam et voluptatem. Minima iure voluptatum autem. At eaque sit aperiam minima aut in illum.",
       "body": "<p>Rerum velit quos est <strong>similique</strong>. Consectetur tempora eos ullam velit nobis sit debitis. Magni explicabo omnis delectus labore vel recusandae.</p><p>Aut a minus laboriosam harum placeat quas minima fuga. Quos nulla fuga quam officia tempore. Rerum occaecati ut eum et tempore. Nam ab repudiandae et nemo praesentium.</p><p>Cumque corporis officia occaecati ducimus sequi laborum omnis ut. Nam aspernatur veniam fugit. Nihil eum libero ea dolorum ducimus impedit sed. Quidem inventore porro corporis debitis eum in. Nesciunt unde est est qui nulla. Esse sunt placeat molestiae molestiae sed quia. Sunt qui quidem quos velit reprehenderit quos blanditiis ducimus. Sint et molestiae maxime ut consequatur minima. Quaerat rem voluptates voluptatem quos. Corporis perferendis in provident iure. Commodi odit exercitationem excepturi et deserunt qui.</p><p>Optio iste necessitatibus velit non. Neque sed occaecati culpa porro culpa. Quia quam in molestias ratione et necessitatibus consequatur. Est est tempora consequatur voluptatem vel. Mollitia tenetur non quis omnis perspiciatis deserunt sed necessitatibus. Ad rerum reiciendis sunt aspernatur.</p><p>Est ullam ut magni aspernatur. Eum et sed tempore modi.</p><p>Earum aperiam sit neque quo laborum suscipit unde. Expedita nostrum itaque non non adipisci. Ut delectus quis delectus est at sint. Iste hic qui ea eaque eaque sed id. Hic placeat rerum numquam id velit deleniti voluptatem. Illum adipisci voluptas adipisci ut alias. Earum exercitationem iste quidem eveniet aliquid hic reiciendis. Exercitationem est sunt in minima consequuntur. Aut quaerat libero dolorem.</p>",
       "views": 143,
@@ -528,6 +544,29 @@
       "procedimento": "<p>m</p>",
       "showDefinition": false,
       "definition": "{\"display\":\"form\",\"components\":[{\"label\":\"Text Field\",\"tableView\":true,\"key\":\"textField\",\"type\":\"textfield\",\"input\":true},{\"type\":\"button\",\"label\":\"Submit\",\"key\":\"submit\",\"disableOnInvalid\":true,\"input\":true,\"tableView\":false}]}"
+    },
+    {
+      "average_note": 0,
+      "title": "Restituição de ITIV",
+      "id": 3,
+      "primeiroSetor": "CFI",
+      "procedimento": "<p>M</p>",
+      "showDefinition": true,
+      "definition": "{\"display\":\"form\",\"components\":[{\"label\":\"Tributos a restituir\",\"description\":\"Inserir nessa tabela os Tributos a serem restituidos. Incluir os comprovantes de pagamento.\",\"tableView\":false,\"templates\":{\"header\":\"<div class=\\\"row\\\">\\n      {% util.eachComponent(components, function(component) { %}\\n\\n          <div class=\\\"col-sm-2\\\">{{ t(component.label) }}</div>\\n\\n      {% }) %}\\n    </div>\",\"row\":\"<div class=\\\"row\\\">\\n      {% util.eachComponent(components, function(component) { %}\\n\\n          <div class=\\\"col-sm-2\\\">\\n            {{ isVisibleInRow(component) ? getView(component, row[component.key]) : ''}}\\n          </div>\\n\\n      {% }) %}\\n      {% if (!instance.options.readOnly && !instance.disabled) { %}\\n        <div class=\\\"col-sm-2\\\">\\n          <div class=\\\"btn-group pull-right\\\">\\n            <button class=\\\"btn btn-default btn-light btn-sm editRow\\\"><i class=\\\"{{ iconClass('edit') }}\\\"></i></button>\\n            {% if (!instance.hasRemoveButtons || instance.hasRemoveButtons()) { %}\\n              <button class=\\\"btn btn-danger btn-sm removeRow\\\"><i class=\\\"{{ iconClass('trash') }}\\\"></i></button>\\n            {% } %}\\n          </div>\\n        </div>\\n      {% } %}\\n    </div>\"},\"rowDrafts\":false,\"key\":\"tributosARestituir\",\"type\":\"editgrid\",\"displayAsTable\":false,\"input\":true,\"components\":[{\"label\":\"Tipo do Tributo\",\"widget\":\"choicesjs\",\"tableView\":true,\"data\":{\"values\":[{\"label\":\"IPTU\",\"value\":\"iptu\"},{\"label\":\"ISS\",\"value\":\"iss\"},{\"label\":\"ITIV\",\"value\":\"itiv\"}]},\"key\":\"tipoDoTributo\",\"type\":\"select\",\"input\":true},{\"label\":\"Ano\",\"mask\":false,\"tableView\":false,\"delimiter\":false,\"requireDecimal\":false,\"inputFormat\":\"plain\",\"truncateMultipleSpaces\":false,\"key\":\"Ano\",\"type\":\"number\",\"input\":true},{\"label\":\"Comprovantes de Pagamento\",\"tableView\":false,\"modalEdit\":true,\"storage\":\"base64\",\"webcam\":false,\"fileTypes\":[{\"label\":\"\",\"value\":\"\"}],\"multiple\":true,\"validate\":{\"required\":true},\"key\":\"Comprovantes_De_Pagamento\",\"type\":\"file\",\"input\":true}]},{\"type\":\"button\",\"label\":\"Submit\",\"key\":\"submit\",\"disableOnInvalid\":true,\"input\":true,\"tableView\":false}]}"
+    },
+    {
+      "average_note": 0,
+      "title": "Teste Grid",
+      "id": 4,
+      "primeiroSetor": "CCC",
+      "procedimento": "<p>grid</p>",
+      "showDefinition": false,
+      "definition": "{\"components\":[{\"label\":\"Edit Grid\",\"tableView\":false,\"templates\":{\"header\":\"<div class=\\\"row\\\">\\n      {% util.eachComponent(components, function(component) { %}\\n\\n          <div class=\\\"col-sm-2\\\">{{ t(component.label) }}</div>\\n\\n      {% }) %}\\n    </div>\",\"row\":\"<div class=\\\"row\\\">\\n      {% util.eachComponent(components, function(component) { %}\\n        \\n          <div class=\\\"col-sm-2\\\">\\n            {{ isVisibleInRow(component) ? getView(component, row[component.key]) : ''}}\\n          </div>\\n \\n      {% }) %}\\n      {% if (!instance.options.readOnly && !instance.disabled) { %}\\n        <div class=\\\"col-sm-2\\\">\\n          <div class=\\\"btn-group pull-right\\\">\\n            <button class=\\\"btn btn-default btn-light btn-sm editRow\\\"><i class=\\\"{{ iconClass('edit') }}\\\"></i></button>\\n            {% if (!instance.hasRemoveButtons || instance.hasRemoveButtons()) { %}\\n              <button class=\\\"btn btn-danger btn-sm removeRow\\\"><i class=\\\"{{ iconClass('trash') }}\\\"></i></button>\\n            {% } %}\\n          </div>\\n        </div>\\n      {% } %}\\n    </div>\"},\"rowDrafts\":false,\"key\":\"editGrid\",\"type\":\"editgrid\",\"displayAsTable\":false,\"input\":true,\"components\":[{\"label\":\"Text Field\",\"tableView\":true,\"key\":\"textField\",\"type\":\"textfield\",\"input\":true},{\"label\":\"Text Field\",\"tableView\":true,\"key\":\"textField1\",\"type\":\"textfield\",\"input\":true},{\"label\":\"Upload\",\"tableView\":false,\"storage\":\"base64\",\"webcam\":false,\"fileTypes\":[{\"label\":\"\",\"value\":\"\"}],\"key\":\"file\",\"type\":\"file\",\"input\":true}]},{\"type\":\"button\",\"label\":\"Submit\",\"key\":\"submit\",\"disableOnInvalid\":true,\"input\":true,\"tableView\":false}]}"
+    },
+    {
+      "title": "Novo Processo Teste",
+      "definition": "{}",
+      "id": 5
     }
   ],
   "posts": [

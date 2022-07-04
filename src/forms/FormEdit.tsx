@@ -129,12 +129,13 @@ const FormEdit = () => {
                         resettable
                     />
 
+                    <SelectInput source="render" validate={required('Required field')} defaultValue="form" choices={[{id: 'form', name: 'Formulário'}, {id: 'pdf', name: 'PDF'}]} />
+
                     <TextInput fullWidth source="primeiroSetor" label="Primeiro Setor" />
 
                     <RichTextInput
                         source="procedimento"
                         label=""
-                        validate={required()}
                         fullWidth
                     />
 
@@ -156,7 +157,7 @@ const FormEdit = () => {
                                     multiline
                                     fullWidth
                                     source="definition"
-                                    label="Nome do Processo"
+                                    label="JSON Processo"
                                     validate={required()}
                                     resettable
                                 />

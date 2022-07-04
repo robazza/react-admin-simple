@@ -18,6 +18,8 @@ window.mref2=mref2;
 export const DisplayForm = ({definition, ref, onSetFormData, errors }) => { 
   const [formData, setFormData] = useState({});
 
+
+  
   var frm = {
     display: "form",
     components: [
@@ -34,7 +36,6 @@ export const DisplayForm = ({definition, ref, onSetFormData, errors }) => {
   return (
     <div>
       <hr />
-
         <Form
           form={frm} ref={mref2} options={{//readOnly: false, 
             //viewAsHtml: true,

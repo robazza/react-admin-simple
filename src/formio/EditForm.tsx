@@ -18,19 +18,85 @@ function isJsonString(str) {
 const options = {
   builder: {
     //advanced: false
-    basic: {
+    simples: {
+      title: 'Simples',
+      weight: 0,
       components: {
-        toggleCustomComp: true,
-        identificacaoCustomComp: true
+        textfield: true,
+        textarea: true,
+        number: true,
+        checkbox: true,
+        selectboxes: true,
+        select: true,
+        radio: true,
+
+        toggleCustomComp: false,
+        identificacaoCustomComp: false
+      } 
+    },
+    complexos: {
+      title: 'Complexos',
+      components: {
+        arquivo: {
+          title: 'Arquivo',
+          icon: 'file',
+          schema: {
+            label: "Anexo",
+            type: 'file',
+            key: 'anexo',
+            storage: "base64",
+            input: true
+          }          
+        },
+        endereco: {
+          title: 'Endereço',
+          icon: 'file',
+          schema: {
+            label: "Endereço",
+            type: 'address',
+            key: 'endereco',
+            storage: "base64",
+            provider: "nominatim",
+            input: true
+          }          
+        },
+        tabela: {
+          title: 'Tabela',
+          icon: 'table',
+          schema: {
+            label: "Tabela",
+            type: 'editgrid',
+            templates: {
+              header: '<div class="row">\n      {% util.eachComponent(components, function(component) { %}\n\n          <div class="col-sm-2">{{ t(component.label) }}</div>\n\n      {% }) %}\n    </div>',
+              row: `<div class="row">\n      {% util.eachComponent(components, function(component) { %}\n\n          <div class="col-sm-2">\n            {{ isVisibleInRow(component) ? getView(component, row[component.key]) : ''}}\n          </div>\n\n      {% }) %}\n      {% if (!instance.options.readOnly && !instance.disabled) { %}\n        <div class="col-sm-2">\n          <div class="btn-group pull-right">\n            <button class="btn btn-default btn-light btn-sm editRow"><i class="{{ iconClass('edit') }}"></i></button>\n            {% if (!instance.hasRemoveButtons || instance.hasRemoveButtons()) { %}\n              <button class="btn btn-danger btn-sm removeRow"><i class="{{ iconClass('trash') }}"></i></button>\n            {% } %}\n          </div>\n        </div>\n      {% } %}\n    </div>`
+            },
+            key: 'tabela',
+            input: true
+          }          
+        },
+        email: true
+
       }
+    },
+    basic: {
+      weight: 50,
     }
   },
   editForm: {
     textfield: [
       {
         key: 'api',
-        ignore: false
-      }        
+        ignore: false,
+        "components": [
+          {
+              "label": "Text Field",
+              "tableView": true,
+              "key": "textField",
+              "type": "textfield",
+              "input": true
+          }
+        ]
+      }
     ]
   }
 }

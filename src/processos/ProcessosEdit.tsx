@@ -70,6 +70,8 @@ const Visao3 = () => {
     const record = useRecordContext();
     const [doc, setDoc] = React.useState({});
 
+	const formModel = record ? useGetOne('forms', { id: record?.formId }):{};
+
     const NoHeader=()=>(<>{doc?.nome}</>);
 
     if (record.tramites.length == 0) {
@@ -135,7 +137,11 @@ const Visao3 = () => {
                                 <FormDataConsumer>
                                     {({ formData, ...rest }) => (
                                         <div>
-                                            {_.isString(doc)&&<MyPdfDoc formData={formData.formioFormData}/>}
+                                            {_.isString(doc)&&<MyPdfDoc formData={formData.formioFormData} formId={formData.formId}/>}
+
+                                            { /*data, isLoading, error*/ }
+
+                                            {JSON.stringify(formData.formId)}
                                         </div>
                                     )}
                                 </FormDataConsumer>
@@ -212,14 +218,14 @@ const TimelineMaterial = ({setDoc}) => {
                                 </StepLabel>
                                 <StepContent>
                     
-                                {i==0 && formioFormData ? <div onClick={(e)=>{e.preventDefault(); setDoc('Formulário Padrão')}}><Icon  i="fa-file-pdf-o"/> Formulário Padrão <br/></div> : <></>}
+                                {i==0 && formioFormData ? <Link to="1" onClick={(e)=>{setDoc('Formulário Padrão')}}><Icon  i="fa-file-pdf-o"/> Formulário Padrão <br/></Link> : <></>}
                     
                                 {i==0 && formioDataToFiles(formioFormData)?.map(arquivo => (
-                                    <div onClick={(e)=>{e.preventDefault(); setDoc([{uri:arquivo.url, nome: arquivo.name}])}}><Icon  i="fa-file-pdf-o"/> {arquivo.name} <br/></div>
+                                    <Link to="1" onClick={(e)=>{setDoc([{uri:arquivo.url, nome: arquivo.name}])}}><Icon  i="fa-file-pdf-o"/> {arquivo.name} <br/></Link>
                                 ))}                   
 
                                 {event.conteudo?.map(arquivo => (
-                                    <div onClick={(e)=>{e.preventDefault(); setDoc([{uri:(arquivo.dataPrefix??'')+arquivo.data, nome: arquivo.nome}])}}><Icon  i="fa-file-pdf-o"/> {arquivo.nome} <br/></div>
+                                    <Link to="1" onClick={(e)=>{setDoc([{uri:(arquivo.dataPrefix??'')+arquivo.data, nome: arquivo.nome}])}}><Icon  i="fa-file-pdf-o"/> {arquivo.nome} <br/></Link>
                                 ))}
 
                                 </StepContent>
