@@ -19,8 +19,6 @@ export const MyPdfDoc = ({formData, formId}) => {
     const { data, isLoading, error } = formId && useGetOne('forms', { id: formId },{retry:false, staleTime:9999999}) || {};
 
 
-    console.log('EEE',data);
-
     var formDefinition = data?.definition && JSON.parse(data?.definition);
 
     const Table = ({ children }) => (
@@ -50,8 +48,8 @@ export const MyPdfDoc = ({formData, formId}) => {
 
     return (
         <div >  
-          formId:{formId} <br/>
-          Nome:{data?.title} <br/>
+          {/*formId:{formId} <br/>
+          Nome:{data?.title} <br/>*/}
         {!(data?.render==='form')&&<PDFViewer showToolbar height='100%' width='100%' style={{'min-height':'600px', 'max-width':'1000px'}}> 
             <Document>
                 <Page style={styles.body}>

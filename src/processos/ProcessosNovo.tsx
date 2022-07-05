@@ -51,6 +51,10 @@ import { Form } from "react-formio";
 
 import { MyPdfDoc } from '../pdfform/MyPdfDoc';
 
+import {
+    Box, BoxProps
+} from '@mui/material';
+
 import Switch from '@mui/material/Switch';
 
 const ProcessoCreateToolbar = props => {
@@ -93,20 +97,6 @@ const ProcessoCreateToolbar = props => {
         </Toolbar>
     );
 };
-
-
-const MyDocument = () => (
-    <Document>
-      <Page size="A4" >
-        <View >
-          <Text>Section #1</Text>
-        </View>
-        <View>
-          <Text>Section #2</Text>
-        </View>
-      </Page>
-    </Document>
-  );
 
 
 const PdfBase64 = ({document}) => {
@@ -227,7 +217,7 @@ const ProcessosNovo = () => {
         console.log(data);
 
         //Alterar dados do formulário antes envio
-
+        data.tramites[0].autor = {nome: data.requerente.nome, cpf: data.requerente.cpf};
 
         
 
@@ -326,9 +316,16 @@ const ProcessosNovo = () => {
 
                 <FormTab label="Formulário Inicial">
 
-                            
-                    <FormioFormField></FormioFormField>
+                    <SanitizedBox
+                        display="flex"
+                        flexDirection="column"
+                        width="100%"
+                        justifyContent="space-between"
+                        fullWidth
+                    >
+                        <FormioFormField></FormioFormField>
 
+                    </SanitizedBox>
                     
 
                 </FormTab>
@@ -376,6 +373,11 @@ const formioDataToFiles = (formioAllData) => {
 
     return _.flatten(_.map(arquivos, (v,k)=>v.map( vv => ({...vv, api:k}) )));
 }
+
+const SanitizedBox = ({
+    fullWidth,
+    ...props
+}: BoxProps & { fullWidth?: boolean }) => <Box {...props} />;
 
 
 export default ProcessosNovo;

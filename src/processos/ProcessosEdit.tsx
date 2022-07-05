@@ -68,9 +68,9 @@ const SanitizedBox = ({
 const Visao3 = () => {
     const { permissions } = usePermissions();
     const record = useRecordContext();
-    const [doc, setDoc] = React.useState({});
+    const [doc, setDoc] = React.useState([]);
 
-	const formModel = record ? useGetOne('forms', { id: record?.formId }):{};
+	//const formModel = record ? useGetOne('forms', { id: record?.formId },{retry:false, staleTime:9999999}):{};
 
     const NoHeader=()=>(<>{doc?.nome}</>);
 
@@ -80,12 +80,12 @@ const Visao3 = () => {
         record.tramites[0].autor = {nome:'CONTRIBUINTE', cpf:'123.456.789-88'};
     }
 
-    console.log(record);
+    
 
     const tramiteAtual = record.tramites.length-1;
     const proximoTramite = record.tramites.length;
 
-    console.log({navigate: useNavigate()});
+    console.log(_.isArray(doc));
 
     return (
         <Box style={{display:"flex", flexDirection: 'row', width: '100%', height: '100%', justifyContent:'flex-start', padding: '1em 0em 1em 0em', gap: '1em'}} className="XXBOX"> 
@@ -138,16 +138,14 @@ const Visao3 = () => {
                                     {({ formData, ...rest }) => (
                                         <div>
                                             {_.isString(doc)&&<MyPdfDoc formData={formData.formioFormData} formId={formData.formId}/>}
-
-                                            { /*data, isLoading, error*/ }
-
-                                            {JSON.stringify(formData.formId)}
                                         </div>
                                     )}
                                 </FormDataConsumer>
                             </SanitizedBox>
-
-                        {true && <DocViewer  config={{header:{overrideComponent: NoHeader}}} style={{maxWidth: 'calc(100vw - 500px)', maxHeight: 'calc(100vh - 100px)'}} pluginRenderers={DocViewerRenderers} documents={doc} />}
+                        <div style={{display: _.isString(doc)?'none':'block'}}>
+                            {<DocViewer  config={{header:{overrideComponent: NoHeader}}} style={{maxWidth: 'calc(100vw - 500px)', maxHeight: 'calc(100vh - 100px)'}} pluginRenderers={DocViewerRenderers} documents={doc} />}
+                        </div>
+                        
 
                         
                         </FormTab>

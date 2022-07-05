@@ -197,7 +197,7 @@ const FormEdit = () => {
                         <FormDataConsumer>
                             {({ formData, ...rest }) => (
                                 <div>
-                                    {true&&<MyPdfDoc formData={frmData}/>}
+                                    {true&&<MyPdfDoc formData={frmData} formId={formData.id}/>}
 
                                 </div>
                             )}
